@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Parallax\FilamentComments\Models\Traits\HasFilamentComments;
 
 class Ticket extends Model
@@ -32,6 +34,10 @@ class Ticket extends Model
 
     protected $dates = [
         'closed_at',
+    ];
+
+    protected $casts = [
+        'file' => 'array',
     ];
 
     public function category()
@@ -94,8 +100,8 @@ class Ticket extends Model
 
     public function getFileUrlAttribute()
     {
-        return Storage::url($this->file);
-    }
+        return Storage::url($this->photo_before);
+    }    
 
     // Assign ticket to a role
     public function assignToRole($role)

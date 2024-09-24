@@ -45,7 +45,7 @@ class JobsPanelProvider extends PanelProvider
             ->plugins([
                 FilamentApexChartsPlugin::make(),
             ])
-            ->topNavigation()
+            // ->topNavigation()
             ->navigationItems([
                 NavigationItem::make('Main Menu')
                     ->url('http://portal.siix-ems.co.id/mainMenu')

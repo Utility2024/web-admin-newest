@@ -110,6 +110,7 @@ class GroundMonitorBoxResource extends Resource
                 // Add filters if necessary
             ])
             ->actions([
+                Tables\Actions\ReplicateAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

@@ -50,7 +50,7 @@ class MainMenuPanelProvider extends PanelProvider
             //         ->url('http://portal.siix-ems.co.id/mainMenu/my-profile')
             //         ->icon('heroicon-o-lock-closed')
             // ])
-            ->topNavigation()
+            // ->topNavigation()
             ->colors([
                 'primary' => Color::Amber,
             ])

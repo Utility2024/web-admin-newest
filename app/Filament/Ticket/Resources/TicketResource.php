@@ -26,10 +26,13 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Ticket\Resources\TicketResource\Pages;
 use Filament\Infolists\Components\Card as InfolistCard;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Parallax\FilamentComments\Tables\Actions\CommentsAction;
 use Parallax\FilamentComments\Infolists\Components\CommentsEntry;
 use App\Filament\Ticket\Resources\TicketResource\RelationManagers;
 use App\Filament\Ticket\Resources\TicketResource\RelationManagers\FeedbackRelationManager;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class TicketResource extends Resource
 {
@@ -59,7 +62,9 @@ class TicketResource extends Resource
                 Card::make()
                     ->schema([       
                         FileUpload::make('file')
-                            ->label('Photo'),                    
+                            ->label('Photo')
+                            ->disk('public')
+                            ->multiple(),
                     ])->columns(2),
                 Card::make()
                     ->schema([
@@ -115,7 +120,11 @@ class TicketResource extends Resource
                     TextEntry::make('title'),
                     TextEntry::make('description'),
                     ImageEntry::make('file')
-                        ->label('Photo'),
+                        ->label('Photo')
+                        ->disk('public')
+                        ->extraAttributes([
+                            'onclick' => 'openModal(this.src)',
+                        ]),
                     TextEntry::make('status')
                         ->badge()
                         ->color(fn (string $state): string => match ($state) {
@@ -215,8 +224,11 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Category'),
 
-                Tables\Columns\ImageColumn::make('file')
-                    ->label('Photo'),
+                ImageColumn::make('file')
+                    ->label('Photo')
+                    ->extraAttributes([
+                        'onclick' => 'openModal(this.src)',
+                    ]),
 
                 Tables\Columns\TextColumn::make('assigned_role')
                     ->label('Assigned To Section')

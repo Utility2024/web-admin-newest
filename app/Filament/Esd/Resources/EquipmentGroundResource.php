@@ -112,13 +112,13 @@ class EquipmentGroundResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('qr_code')
-                    ->label('QR Code')
-                    ->html()
-                    ->getStateUsing(function ($record) {
-                        $qrCode = base64_encode(QrCode::format('svg')->size(100)->generate($record->machine_name));
-                        return "<img src='data:image/svg+xml;base64,{$qrCode}' alt='QR Code' />";
-                    }),
+                // TextColumn::make('qr_code')
+                //     ->label('QR Code')
+                //     ->html()
+                //     ->getStateUsing(function ($record) {
+                //         $qrCode = base64_encode(QrCode::format('svg')->size(100)->generate($record->machine_name));
+                //         return "<img src='data:image/svg+xml;base64,{$qrCode}' alt='QR Code' />";
+                //     }),
             ])
             ->filters([
                 //

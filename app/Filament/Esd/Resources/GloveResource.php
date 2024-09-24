@@ -74,13 +74,13 @@ class GloveResource extends Resource
                 TextColumn::make('sap_code')->sortable()->searchable(),
                 TextColumn::make('description')->sortable()->searchable(),
                 TextColumn::make('delivery')->sortable()->searchable(),
-                TextColumn::make('qr_code')
-                    ->label('QR Code')
-                    ->html()
-                    ->getStateUsing(function ($record) {
-                        $qrCode = base64_encode(QrCode::format('svg')->size(100)->generate($record->sap_code));
-                        return "<img src='data:image/svg+xml;base64,{$qrCode}' alt='QR Code' />";
-                    }),
+                // TextColumn::make('qr_code')
+                //     ->label('QR Code')
+                //     ->html()
+                //     ->getStateUsing(function ($record) {
+                //         $qrCode = base64_encode(QrCode::format('svg')->size(100)->generate($record->sap_code));
+                //         return "<img src='data:image/svg+xml;base64,{$qrCode}' alt='QR Code' />";
+                //     }),
                 TextColumn::make('judgement_counts')
                     ->label('OK / NG Count')
                     ->badge()

@@ -53,12 +53,6 @@ class EsdPanelProvider extends PanelProvider
             )
             ->plugins([
                 FilamentApexChartsPlugin::make(),
-                FilamentNotesPlugin::make()
-                    ->useNotification()
-                    ->useChecklist()
-                    ->useStatus()
-                    ->useGroups()
-                    ->useShareLink()
             ])
             ->colors([
                 'primary' => Color::Amber,

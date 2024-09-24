@@ -708,7 +708,7 @@
                                 <tr>
                                     <th>( C3 )</th>
                                     <th>:</th>
-                                    <td>Measure Offset Voltage, Volts Swing < + / - 35V 20 Sec</td>
+                                    <td>Measure Offset Voltage, Volts Swing < + / - 35V , 30 Sec.</td>
                                 </tr>
                             <h5 class="card-footer text-center">Doc No : QR-ADM-22-K017</h5>
                         </tbody>
