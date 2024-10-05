@@ -34,7 +34,8 @@ class IonizerDetail extends Model
         'judgement_c2',
         'c3',
         'judgement_c3',
-        'remarks'
+        'remarks',
+        'next_date'
     ];
 
     /**

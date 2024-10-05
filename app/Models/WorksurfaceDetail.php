@@ -28,6 +28,7 @@ class WorksurfaceDetail extends Model
         'a2',
         'judgement_a2',
         'remarks',
+        'next_date'
     ];
 
     // Relasi many-to-one dengan Worksurface

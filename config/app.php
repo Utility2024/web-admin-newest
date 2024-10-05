@@ -205,6 +205,8 @@ return [
         App\Providers\Filament\JobsPanelProvider::class,
         App\Providers\Filament\TicketPanelProvider::class,
         App\Providers\Filament\FormPanelProvider::class,
+        App\Providers\Filament\IotPanelProvider::class,
+        App\Providers\Filament\WhPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
@@ -223,6 +225,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),

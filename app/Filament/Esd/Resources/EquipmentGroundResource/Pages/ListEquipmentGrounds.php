@@ -16,7 +16,7 @@ class ListEquipmentGrounds extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/equipment-ground-details')
+                ->url('/esd/equipment-ground-details')
                 ->label('Go To All Measurement Of Equipment Ground')
                 ->color('success')
         ];

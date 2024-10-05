@@ -97,6 +97,7 @@ class FlooringDetailRelationManager extends RelationManager
                 TextColumn::make('remarks')->sortable()->searchable()->label('Remarks'),
                 TextColumn::make('created_at')->date()->sortable()->searchable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

@@ -10,6 +10,7 @@
         "awcodes/shout": "^2.0",
         "barryvdh/laravel-dompdf": "^3.0",
         "eightynine/filament-approvals": "^3.1",
+        "endroid/qr-code": "^5.1",
         "filament/filament": "3.2",
         "filament/spatie-laravel-media-library-plugin": "3.2",
         "fruitcake/laravel-cors": "dev-develop",

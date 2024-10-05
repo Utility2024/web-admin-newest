@@ -112,6 +112,7 @@ class FeedbackRelationManager extends RelationManager
                     ->label('Status'),
                 Tables\Columns\ImageColumn::make('photo')
                     ->label('Photo')
+                    ->size(100)
                     ->disk('public'),
                 
                 Tables\Columns\TextColumn::make('created_at')

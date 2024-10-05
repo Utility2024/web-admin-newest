@@ -15,7 +15,7 @@ class DataFasilitas extends Model
 
     protected $connection = 'mysql_ga';
 
-    protected $fillable = ['area_id', 'category_id', 'register_no'];
+    protected $fillable = ['area_id', 'category_id', 'register_no', 'status'];
 
     public function area()
     {

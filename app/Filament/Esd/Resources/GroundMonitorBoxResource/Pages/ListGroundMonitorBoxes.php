@@ -16,7 +16,7 @@ class ListGroundMonitorBoxes extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/ground-monitor-box-details')
+                ->url('/esd/ground-monitor-box-details')
                 ->label('Go To All Measurement Of Ground Monitor Box')
                 ->color('success')
         ];

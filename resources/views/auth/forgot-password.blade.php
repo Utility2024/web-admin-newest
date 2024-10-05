@@ -2,90 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url('css/login.css') }}" />
     <title>Forgot Password</title>
-    <style>
-        .text-red-500 {
-            color: #f56565;
-            font-size: 0.875rem;
-        }
-
-        .forgot-password {
-            display: block;
-            margin-top: 10px;
-            font-size: 0.875rem;
-            color: #1d4ed8;
-            text-decoration: none;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        .back-to-login {
-            display: block;
-            margin-top: 10px;
-            font-size: 0.875rem;
-            color: #1d4ed8;
-            text-decoration: none;
-        }
-
-        .back-to-login:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="forms-container">
-            <div class="signin-signup">
-                <!-- Password Reset Form -->
-                <form method="POST" action="{{ route('password.email') }}" class="sign-in-form">
-                    @csrf
-                    <img src="{{ url('images/logo_siix.png') }}" alt="Logo" width="180" height="100" />
-                    <hr>
-                    <h2 class="title">Forgot Password</h2>
+    <main>
+        <div class="box">
+            <div class="inner-box">
+                <div class="forms-wrap">
+                    <!-- Password Reset Form -->
+                    <form method="POST" action="{{ route('password.email') }}" class="sign-in-form" autocomplete="off">
+                        @csrf
+                        <div class="logo">
+                            <h4>PORTAL ADMIN. DEPT</h4>
+                        </div>
 
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" placeholder="Email" required autofocus autocomplete="username" />
+                        <div class="heading">
+                            <h2>Forgot Your Password?</h2>
+                            <p>Insert Your Email</p>
+                        </div>
+
+                        <div class="actual-form">
+                            <div class="input-wrap">
+                                <i class="#"></i>
+                                <x-input id="email" class="input-field" type="email" name="email" :value="old('email')" placeholder="Email" required autofocus autocomplete="username" />
+                            </div>
+
+                            @if (session('status'))
+                                <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
+                            @error('email')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+
+                            <input type="submit" value="Send Email" class="sign-btn" />
+
+                            <!-- Back to Login Button -->
+                            <p class="text">
+                                <a href="{{ route('login') }}" class="back-to-login">Sign in Again?</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="carousel">
+                    <div class="images-wrapper">
+                        <img src="{{ url('images/forgot.png') }}" class="image img-1 show" alt="Forgot Password" />
                     </div>
 
-                    @if (session('status'))
-                        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ session('status') }}
+                    <div class="text-slider">
+                        <div class="text-wrap">
+                            <div class="text-group">
+                                <h2>PT. SIIX-EMS INDONESIA</h2>
+                            </div>
                         </div>
-                    @endif
-
-                    @error('email')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-
-                    <x-button class="btn solid">
-                        {{ __('Send Email') }}
-                    </x-button>
-
-                    <!-- Back to Login Button -->
-                    <a href="{{ route('login') }}" class="back-to-login">
-                        {{ __('Kembali ke Menu Login') }}
-                    </a>
-                </form>
-            </div>
-        </div>
-
-        <div class="panels-container">
-            <div class="panel left-panel">
-                <div class="content">
-                    <h3>Anda Lupa Password?</h3>
-                    <p>Silahkan Masukkan Email anda yang sudah terdaftar dan periksa pesan nya lalu reset password anda.</p>
+                    </div>
                 </div>
-                <img src="{{ url('images/forgot.png') }}" class="image" alt="" />
             </div>
         </div>
-    </div>
+    </main>
 
-    <script src="{{ url('js/app.js') }}"></script>
+    <!-- Javascript file -->
+    <script src="{{ url('js/login.js') }}"></script>
 </body>
 </html>

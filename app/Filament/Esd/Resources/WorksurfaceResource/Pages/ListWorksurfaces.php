@@ -16,7 +16,7 @@ class ListWorksurfaces extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/worksurface-details')
+                ->url('/esd/worksurface-details')
                 ->label('Go To All Measurement Of Worksurface')
                 ->color('success')
         ];

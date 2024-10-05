@@ -3,140 +3,136 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url('css/style.css') }}" />
     <title>Sign in & Sign up Form</title>
-    <style>
-        .text-red-500 {
-            color: #f56565;
-            font-size: 0.875rem; /* Optional: adjust font size */
-        }
-
-        .forgot-password {
-            display: block;
-            margin-top: 10px;
-            font-size: 0.875rem;
-            color: #1d4ed8;
-            text-decoration: none;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        input {
-            /* background-color: #f0f0f0; */
-            border: none;
-            padding: 12px 15px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            width: 100%;
-            border-radius: 30px;
-            /* box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.03); */
-            outline: none;
-        }
-    </style>
-
+    <link rel="stylesheet" href="{{ url('css/login.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="forms-container">
-            <div class="signin-signup">
-                <!-- Sign In Form -->
-                <form method="POST" action="{{ route('login') }}" class="sign-in-form">
-                    @csrf
-                    <img src="{{ url('images/logo_siix.png') }}" class="" alt="" width="180" height="100" />
-                    <hr>
-                    <h2 class="title">Login</h2>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <x-input id="nik" class="block mt-1 w-full" type="number" name="nik" :value="old('nik')" placeholder="NIK" required autofocus autocomplete="username" />
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input id="password" type="password" name="password" placeholder="Password" required />
-                    </div>
-                    @error('nik')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                    @error('password')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
+    <main>
+        <div class="box">
+            <div class="inner-box">
+                <div class="forms-wrap">
+                    <!-- Sign In Form -->
+                    <form method="POST" action="{{ route('login') }}" autocomplete="off" class="sign-in-form">
+                        @csrf
+                        <img src="{{ url('images/logo_siix.png') }}" alt="logo" width="70" height="auto" />
+                        <div class="logo">
+                            <h4>PORTAL ADMIN. DEPT</h4>
+                        </div>
 
-                    <!-- Tambahkan link Forgot Password di sini -->
-                    <x-button class="btn solid">
-                        {{ __('Sign In') }}
-                    </x-button>
-                    <a href="{{ route('password.request') }}" class="forgot-password">
-                        {{ __('Lupa Password?') }}
-                    </a>
-                </form>
+                        <div class="heading">
+                            <h2>Welcome Back</h2>
+                            <h6>Not registered yet?</h6>
+                            <a href="#" class="toggle">Sign up</a>
+                        </div>
 
-                <!-- Sign Up Form -->
-                <form method="POST" action="{{ route('register') }}" class="sign-up-form">
-                    @csrf
-                    <img src="{{ url('images/logo_siix.png') }}" class="" alt="" width="180" height="100" />
-                    <hr>
-                    <h2 class="title">Register</h2>
-                    <div class="input-field">
-                        <i class="fas fa-id-card"></i>
-                        <x-input id="nik" class="block mt-1 w-full" type="number" name="nik" :value="old('nik')" placeholder="NIK" required />
+                        <div class="actual-form">
+                            <div class="input-wrap">
+                                <x-input id="nik" type="number" name="nik" class="input-field" :value="old('nik')" placeholder="NIK" required autocomplete="username" />
+                            </div>
+
+                            <div class="input-wrap" style="position: relative;">
+                                <input id="signin_password" type="password" name="password" class="input-field" placeholder="Password" required />
+                                <span toggle="#signin_password"  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
+                            </div>
+
+                            <input type="submit" value="Sign In" class="sign-btn" />
+
+                            <p class="text">
+                                <a href="{{ route('password.request') }}" class="text">Forgot your password?</a>
+                            </p>
+                            @error('nik')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                            @error('password')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                            @error('nik')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                            @error('name')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                            @error('email')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                            @error('password')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </form>
+
+                    <!-- Sign Up Form -->
+                    <form method="POST" action="{{ route('register') }}" autocomplete="off" class="sign-up-form">
+                        @csrf
+                        <img src="{{ url('images/logo_siix.png') }}" alt="logo" width="70" height="auto" />
+
+                        <div class="heading">
+                            <h2>Get Started</h2>
+                            <h6>Already have an account?</h6>
+                            <a href="#" class="toggle">Sign in</a>
+                        </div>
+
+                        <div class="actual-form">
+                            <div class="input-wrap">
+                                <x-input id="nik" type="number" name="nik" class="input-field" :value="old('nik')" placeholder="NIK" required />
+                            </div>
+
+                            <div class="input-wrap">
+                                <x-input id="name" type="text" name="name" class="input-field" :value="old('name')" placeholder="Name" required />
+                            </div>
+
+                            <div class="input-wrap">
+                                <x-input id="email" type="email" name="email" class="input-field" :value="old('email')" placeholder="Email" />
+                            </div>
+
+                            <div class="input-wrap" style="position: relative;">
+                                <input id="signup_password" type="password" name="password" class="input-field" placeholder="Password must be 8 character" required />
+                                <span toggle="#signup_password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
+                            </div>
+
+                            <div class="input-wrap" style="position: relative;">
+                                <input id="password_confirmation" type="password" name="password_confirmation" class="input-field" required placeholder="Confirm Password" />
+                                <span toggle="#password_confirmation" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
+                            </div>
+                            <input type="submit" value="Sign Up" class="sign-btn" />
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="carousel">
+                    <div class="images-wrapper">
+                        <img src="{{ url('images/login.png') }}" class="image img-1 show" alt="login" />
+                        <img src="{{ url('images/register.png') }}" class="image img-2" alt="register" />
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" placeholder="Name" required autofocus autocomplete="name" />
+
+                    <div class="text-slider">
+                        <div class="text-wrap">
+                            <div class="text-group">
+                                <h2>PT. SIIX-EMS INDONESIA</h2>
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" placeholder="Email"/>
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="Password" />
-                    </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm Password" />
-                    </div>
-                    @error('nik')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                    @error('name')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                    @error('email')
-                        <span class="text-red-500">{{ $message }}</span>
-                    @enderror
-                    <x-button class="btn">
-                        {{ __('Sign Up') }}
-                    </x-button>
-                </form>
+                </div>
             </div>
         </div>
+    </main>
 
-        <div class="panels-container">
-            <div class="panel left-panel">
-                <div class="content">
-                    <h3>Welcome To Web Portal Admin Dept.</h3>
-                    <p>Belum Mempunyai Akun? Silahkan klik tombol Sign Up di bawah ini untuk mengakses Website.</p>
-                    <button class="btn transparent" id="sign-up-btn">
-                        {{ __('Sign Up') }}
-                    </button>
-                </div>
-                <img src="{{ url('images/login.png') }}" class="image" alt="" />
-            </div>
-            <div class="panel right-panel">
-                <div class="content">
-                    <h3>Sudah Mempunyai Akun?</h3>
-                    <p>Silahkan klik tombol Sign In di bawah ini.</p>
-                    <button class="btn transparent" id="sign-in-btn">
-                        {{ __('Sign In') }}
-                    </button>
-                </div>
-                <img src="{{ url('images/register.png') }}" class="image" alt="" />
-            </div>
-        </div>
-    </div>
-    <script src="{{ url('js/app.js') }}"></script>
+    <!-- Javascript file -->
+    <script src="{{ url('js/login.js') }}"></script>
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(item => {
+            item.addEventListener('click', function () {
+                const passwordField = document.querySelector(this.getAttribute('toggle'));
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+
+                // Toggle the eye / eye-slash icon
+                // this.classList.toggle('fa-eye-slash');
+                // this.classList.toggle('fa-eye');
+            });
+        });
+    </script>
 </body>
 </html>

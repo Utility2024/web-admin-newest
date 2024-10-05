@@ -16,7 +16,7 @@ class ListSolderings extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/soldering-details')
+                ->url('/esd/soldering-details')
                 ->label('Go To All Measurement Of Soldering')
                 ->color('success')
         ];

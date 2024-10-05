@@ -40,7 +40,7 @@ class FormPanelProvider extends PanelProvider
                     ->icon('heroicon-o-arrow-left-start-on-rectangle')
                     ->sort(3),
             ])
-            ->topNavigation()
+            // ->topNavigation()
             ->colors([
                 'primary' => Color::Amber,
             ])

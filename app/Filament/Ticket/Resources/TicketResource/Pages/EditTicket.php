@@ -19,13 +19,8 @@ class EditTicket extends EditRecord
         ];
     }
 
-    // protected function mutateFormDataBeforeFill(array $data): array
-    // {
-    //     // Check if the current user is the creator of the ticket
-    //     if ($data['created_by'] !== Auth::id()) {
-    //         abort(403, 'You do not have permission to edit this ticket.');
-    //     }
-
-    //     return $data;
-    // }
+    public static function getRelations(): array
+    {
+        return [];
+    }
 }

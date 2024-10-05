@@ -16,7 +16,7 @@ class ListIonizers extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/ionizer-details')
+                ->url('/esd/ionizer-details')
                 ->label('Go To All Measurement Of Ionizer')
                 ->color('success')
         ];

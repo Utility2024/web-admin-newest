@@ -55,6 +55,16 @@ class Ticket extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function feedback()
     {
         return $this->hasMany(Feedback::class);

@@ -36,6 +36,11 @@ class PengajuanFasilitas extends Model
         'updated_by'
     ];
 
+    protected $casts = [
+        'foto_fasilitas' => 'array',
+        'foto_lokasi_fasilitas' => 'array',
+    ];
+
     // Optional: Jika menggunakan timestamp default, kamu bisa menambahkan format yang sesuai
     protected $dates = ['due_date'];
     

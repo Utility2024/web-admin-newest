@@ -11,6 +11,7 @@ use Forms\Components\Textarea;
 use Forms\Components\TextInput;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -147,6 +148,7 @@ class IonizerDetailRelationManager extends RelationManager
                         ->dehydrated(),
                     Forms\Components\Textarea::make('remarks')
                         ->maxLength(65535),
+                    DatePicker::make('next_date')
                 ])         
             ]);
     }
@@ -197,8 +199,10 @@ class IonizerDetailRelationManager extends RelationManager
                             'NG' => 'danger',
                         }),
                 Tables\Columns\TextColumn::make('remarks')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->date()->label('Created At'),
+                Tables\Columns\TextColumn::make('created_at')->date()->label('Date'),
+                Tables\Columns\TextColumn::make('next_date')->date()->label('Next Date'),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

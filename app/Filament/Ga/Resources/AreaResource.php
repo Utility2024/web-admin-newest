@@ -32,7 +32,6 @@ class AreaResource extends Resource
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('standard_area')
-                            ->required()
                             ->maxLength(255),
                     ])
             ]);

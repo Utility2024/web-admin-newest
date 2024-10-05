@@ -4,29 +4,26 @@ namespace App\Filament\Esd\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use BaconQrCode\Writer;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Worksurface;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use App\Models\WorksurfaceDetail;
+use Illuminate\Support\Collection;
 use Filament\Forms\Components\Card;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Filament\Infolists\Components\TextEntry;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Esd\Resources\WorksurfaceResource\Pages;
 use Filament\Infolists\Components\Card as InfolistCard;
+use App\Filament\Esd\Resources\WorksurfaceResource\Pages;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Esd\Resources\WorksurfaceResource\RelationManagers;
-use Filament\Actions\ReplicateAction;
-
 use App\Filament\Esd\Resources\WorksurfaceResource\RelationManagers\WorksurfaceDetailRelationManager;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Blade;
 
 class WorksurfaceResource extends Resource
 {
@@ -38,18 +35,18 @@ class WorksurfaceResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'register_no';
 
-
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()
                     ->schema([
-                        TextInput::make('register_no')->required()->unique(ignorable:fn($record)=>$record),
+                        TextInput::make('register_no')
+                            ->required()
+                            ->unique(ignorable: fn($record) => $record),
                         TextInput::make('area')->required(),
-                        TextInput::make('location')->required()
-                    ])
+                        TextInput::make('location')->required(),
+                    ]),
             ]);
     }
 
@@ -70,7 +67,9 @@ class WorksurfaceResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable()->searchable(),
-                TextColumn::make('register_no')->sortable()->searchable()
+                TextColumn::make('register_no')
+                    ->sortable()
+                    ->searchable()
                     ->copyable()
                     ->copyMessage('Register No copied')
                     ->copyMessageDuration(1500),
@@ -114,9 +113,7 @@ class WorksurfaceResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('id', 'desc')
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\ReplicateAction::make(),
                 Tables\Actions\ViewAction::make(),
@@ -125,18 +122,17 @@ class WorksurfaceResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkAction::make('Export Pdf')
-                        ->icon('heroicon-m-arrow-down-tray')
-                        ->openUrlInNewTab()
-                        ->deselectRecordsAfterCompletion()
-                        ->action(function (Collection $records) {
-                            return response()->streamDownload(function () use ($records) {
-                                echo Pdf::loadHTML(
-                                    Blade::render('Worksurfacepdf', ['records' => $records])
-                                )->stream();
-                            }, 'Worksurface.pdf');
-                        }),
-                ExportBulkAction::make()
-                    ->label('Export Excel'),
+                    ->icon('heroicon-m-arrow-down-tray')
+                    ->openUrlInNewTab()
+                    ->deselectRecordsAfterCompletion()
+                    ->action(function (Collection $records) {
+                        return response()->streamDownload(function () use ($records) {
+                            echo Pdf::loadHTML(
+                                Blade::render('Worksurfacepdf', ['records' => $records])
+                            )->stream();
+                        }, 'Worksurface.pdf');
+                    }),
+                ExportBulkAction::make()->label('Export Excel'),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
@@ -145,7 +141,6 @@ class WorksurfaceResource extends Resource
     {
         return [
             WorksurfaceDetailRelationManager::class,
-            
         ];
     }
 

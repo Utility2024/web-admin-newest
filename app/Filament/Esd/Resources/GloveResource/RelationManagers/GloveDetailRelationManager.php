@@ -100,6 +100,7 @@ class GloveDetailRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('remarks')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->date(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

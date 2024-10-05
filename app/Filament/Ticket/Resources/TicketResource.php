@@ -26,13 +26,14 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Ticket\Resources\TicketResource\Pages;
 use Filament\Infolists\Components\Card as InfolistCard;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
 use Parallax\FilamentComments\Tables\Actions\CommentsAction;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Parallax\FilamentComments\Infolists\Components\CommentsEntry;
 use App\Filament\Ticket\Resources\TicketResource\RelationManagers;
 use App\Filament\Ticket\Resources\TicketResource\RelationManagers\FeedbackRelationManager;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class TicketResource extends Resource
 {
@@ -226,9 +227,9 @@ class TicketResource extends Resource
 
                 ImageColumn::make('file')
                     ->label('Photo')
-                    ->extraAttributes([
-                        'onclick' => 'openModal(this.src)',
-                    ]),
+                    ->disk('public')
+                    ->size(100),
+                    
 
                 Tables\Columns\TextColumn::make('assigned_role')
                     ->label('Assigned To Section')
@@ -298,7 +299,6 @@ class TicketResource extends Resource
                     ]),
             ])
             ->actions([
-                // Action approval_user
                 Action::make('approve_user')
                     ->label('Approval User')
                     ->form([

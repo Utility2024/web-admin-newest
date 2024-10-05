@@ -13,13 +13,15 @@ use App\Models\PengajuanFasilitas;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Ga\Resources\PengajuanFasilitasResource\Pages;
 use App\Filament\Ga\Resources\PengajuanFasilitasResource\RelationManagers;
-use Filament\Infolists\Components\Card as InfolistCard;
 
 class PengajuanFasilitasResource extends Resource
 {
@@ -33,9 +35,8 @@ class PengajuanFasilitasResource extends Resource
     {
         return $form
             ->schema([
-                Wizard::make([
-                    Wizard\Step::make('Data Personal')
-                        ->schema([
+                Card::make()
+                    ->schema([
                             Forms\Components\Select::make('nik')
                                 ->label('NIK')
                                 ->required()
@@ -72,9 +73,6 @@ class PengajuanFasilitasResource extends Resource
                                 ->required()
                                 ->disabled()
                                 ->dehydrated(),
-                            ]),
-                    Wizard\Step::make('Pengajuan')
-                        ->schema([
                             ToggleButtons::make('jenis_pengajuan_fasilitas')
                                 ->options([
                                     'Register Baru Fasilitas' => 'Register Baru Fasilitas',
@@ -87,18 +85,17 @@ class PengajuanFasilitasResource extends Resource
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('nomor_identitas_fasilitas')
                                 ->maxLength(255),
-                            Forms\Components\TextInput::make('foto_fasilitas')
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('foto_lokasi_fasilitas')
-                                ->required()
-                                ->maxLength(255),
+                            FileUpload::make('foto_fasilitas')
+                                ->label('Foto Fasilitas')
+                                ->disk('public')
+                                ->multiple(),
+                            FileUpload::make('foto_lokasi_fasilitas')
+                                ->label('Foto Fasilitas')
+                                ->disk('public')
+                                ->multiple(),
                             Forms\Components\TextInput::make('lokasi')
                                 ->required()
                                 ->maxLength(255),
-                        ]),
-                    Wizard\Step::make('Alasan')
-                        ->schema([
                             Forms\Components\TextArea::make('alasan_pengajuan')
                                 ->required()
                                 ->maxLength(255),
@@ -107,8 +104,6 @@ class PengajuanFasilitasResource extends Resource
                             Forms\Components\TextArea::make('remarks')
                                 ->maxLength(255),
                         ]),                           
-                                            
-                    ]),
             ]);
     }
 
@@ -125,7 +120,8 @@ class PengajuanFasilitasResource extends Resource
                 InfolistCard::make([
                     TextEntry::make('jenis_fasilitas'),
                     TextEntry::make('nomor_identitas_fasilitas'),
-                    TextEntry::make('foto_fasilitas'),
+                    ImageEntry::make('foto_fasilitas'),
+                    ImageEntry::make('foto_lokasi_fasilitas'),
                     TextEntry::make('alasan_pengajuan'),
                 ])->columns(4),
                 InfolistCard::make([

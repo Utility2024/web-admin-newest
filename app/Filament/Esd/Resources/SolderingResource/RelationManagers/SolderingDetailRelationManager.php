@@ -96,6 +96,7 @@ class SolderingDetailRelationManager extends RelationManager
                 TextColumn::make('remarks')->label('Remarks')->sortable()->searchable(),
                 TextColumn::make('created_at')->date()->sortable()->searchable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('judgement')
                     ->options([

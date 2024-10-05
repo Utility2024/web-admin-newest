@@ -188,7 +188,8 @@ class WorksurfaceDetailResource extends Resource
                 ])->columns(2),
                 InfolistCard::make([
                     TextEntry::make('remarks')->label('Remarks'),
-                    TextEntry::make('created_at')->label('Created At')->date(),
+                    TextEntry::make('created_at')->label('Date')->date(),
+                    TextEntry::make('next_date')->label('Next date')->date(),
                 ])->columns(2),
             ]);
     }
@@ -229,6 +230,10 @@ class WorksurfaceDetailResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('next_date')
+                    ->label('Next Date')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')

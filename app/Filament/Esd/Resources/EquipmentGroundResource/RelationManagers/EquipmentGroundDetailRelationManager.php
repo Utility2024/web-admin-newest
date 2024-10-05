@@ -2,12 +2,14 @@
 
 namespace App\Filament\Esd\Resources\EquipmentGroundResource\RelationManagers;
 
-use App\Models\EquipmentGround;
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\EquipmentGround;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -89,6 +91,7 @@ class EquipmentGroundDetailRelationManager extends RelationManager
                         Forms\Components\Textarea::make('remarks')
                             ->nullable()
                             ->maxLength(65535),
+                        DatePicker::make('next_date')
                     ])
             ]);
     }
@@ -114,8 +117,22 @@ class EquipmentGroundDetailRelationManager extends RelationManager
                         'NG' => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('remarks')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->date()->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('Tech')
+                    ->sortable()
+                    ->searchable(), 
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date')
+                    ->date()
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('next_date')
+                    ->label('Next Date')
+                    ->date()
+                    ->sortable()
+                    ->searchable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

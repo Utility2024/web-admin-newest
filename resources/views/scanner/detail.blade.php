@@ -67,7 +67,9 @@
                                 <th>Measure Results volts</th>
                                 <th>Judgement volts</th>
                                 <th>Remarks</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,7 +97,13 @@
                                         @endif
                                     </td>
                                     <td>{{ $d->remarks }}</td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($d->next_date)->format('d F Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -221,7 +229,9 @@
                                 <th>A2</th>
                                 <th>Judgement A2</th>
                                 <th>Remarks</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -250,7 +260,12 @@
                                         @endif
                                     </td>
                                     <td>{{ $d->remarks }}</td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($d->next_date)->format('d F Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -282,7 +297,7 @@
                     </table>
                     <table class="table">
                         <tbody>
-                            <h5 class="card-header text-center">STANDARD ESD OF Mat Resitivity Work Surface (Table, Rack and Trolley)</h5>
+                            <h5 class="card-header text-center">STANDARD ESD OF GROUND MONITOR BOX</h5>
                                 <tr>
                                     <th>G1</th>
                                     <th>:</th>
@@ -731,7 +746,9 @@
                                 <th>C3</th>
                                 <th>C3 Judgement</th>
                                 <th>Remark</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -796,7 +813,13 @@
                                         @endif
                                     </td>
                                     <td>{{ $d->remarks }}</td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($d->next_date)->format('d F Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

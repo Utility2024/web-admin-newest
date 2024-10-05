@@ -16,7 +16,7 @@ class ListGarments extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/garment-details')
+                ->url('/esd/garment-details')
                 ->label('Go To All Measurement Of Garment')
                 ->color('success')
         ];

@@ -16,7 +16,7 @@ class ListFloorings extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/flooring-details')
+                ->url('/esd/flooring-details')
                 ->label('Go To All Measurement Of Flooring')
                 ->color('success')
         ];

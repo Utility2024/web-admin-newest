@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrScannerController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\WorksurfaceController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -40,6 +41,9 @@ Route::get('reset-password/{token}', [PasswordResetController::class, 'showReset
 
 Route::post('reset-password', [PasswordResetController::class, 'reset'])
     ->name('password.update');
+
+Route::get('/worksurface-pdf', [WorksurfaceController::class, 'generatePdf']);
+    
 
 // Add authentication middleware to the routes for QrScannerController
 Route::middleware('auth')->group(function () {

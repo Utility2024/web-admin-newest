@@ -16,7 +16,7 @@ class ListPackagings extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/packaging-details')
+                ->url('/esd/packaging-details')
                 ->label('Go To All Measurement Of Packaging')
                 ->color('success')
         ];

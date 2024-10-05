@@ -103,6 +103,7 @@ class PackagingDetailRelationManager extends RelationManager
                 TextColumn::make('remarks')->sortable()->searchable(),
                 TextColumn::make('created_at')->date()->sortable()->searchable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 // Tambahkan filter jika diperlukan
             ])

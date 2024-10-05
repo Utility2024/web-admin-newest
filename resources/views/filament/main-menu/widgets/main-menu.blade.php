@@ -8,107 +8,99 @@
                 ->count();
         @endphp
         
-        <!-- Card 2: Human Resource -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+        <!-- Card 1: Human Resource -->
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
             @php $totalJobs++; @endphp
-            <x-filament::card class="max-w-sm">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover aspect-square" src="{{ url('images/jobs.png') }}" alt="HR Portal" />
-                </div>
-                <div class="space-y-2">
-                    <h5 class="text-lg font-bold">Jobs Access</h5>
-                    <p class="text-gray-600">
-                        Explore Your Job Access for more
-                    </p>
-                    <x-filament::button 
-                        badge-color="warning"
-                        tag="a" 
-                        href="http://portal.siix-ems.co.id/jobs" 
-                        class="mt-4"
-                    >
-                        More Info
-                    </x-filament::button>
-                </div>
-            </x-filament::card>
-        @endif
-
-        <!-- Card 1: Electrostatic Discharge -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
-            @php $totalJobs++; @endphp
-            <x-filament::card class="max-w-sm">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover aspect-square" src="{{ url('images/ticket.png') }}" alt="ESD Portal" />
-                </div>
-                <div class="space-y-2">
-                    <h5 class="text-lg font-bold">Ticketing Support</h5>
-                    <p class="text-gray-600">
-                        Ticket For Problem (UTILITY, ESD, HR&GA)
-                    </p>
-                    <x-filament::button 
-                        badge-color="warning"
-                        tag="a" 
-                        href="http://portal.siix-ems.co.id/ticket" 
-                        class="mt-4"
-                    >
-                        <x-slot name="badge">
-                            {{ $assignedTicketsCount }} <!-- Menampilkan jumlah tiket "Open" yang ditugaskan -->
-                        </x-slot>
-                        More Info
-                    </x-filament::button>
-                    @if (auth()->user()->isUser())
+            <x-filament::card class="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+                <div class="flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img class="w-full h-32 object-cover aspect-square" src="{{ url('images/jobs.png') }}" alt="Jobs Access" />
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h5 class="text-lg font-bold">Jobs Access</h5>
+                        <p class="text-gray-600">Explore Your Job Access for more</p>
                         <x-filament::button 
-                            color="success"
+                            badge-color="warning"
                             tag="a" 
-                            href="http://portal.siix-ems.co.id/ticket/tickets/create" 
+                            href="/jobs" 
                             class="mt-4"
                         >
-                            Create Ticket
+                            More Info
                         </x-filament::button>
-                    @endif
+                    </div>
                 </div>
             </x-filament::card>
         @endif
         
+        <!-- Card 2: Form Application -->
         @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isSecurity() || $user->isManagerAdmin())
             @php $totalJobs++; @endphp
-            <x-filament::card class="max-w-sm">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover aspect-square" src="{{ url('images/form.png') }}" alt="HR Portal" />
-                </div>
-                <div class="space-y-2">
-                    <h5 class="text-lg font-bold">Form Application</h5>
-                    <p class="text-gray-600">
-                        Please create the form you need here
-                    </p>
-                    <x-filament::button 
-                        tag="a" 
-                        href="http://portal.siix-ems.co.id/form" 
-                        class="mt-4"
-                    >
-                        More Info
-                    </x-filament::button>
+            <x-filament::card class="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+                <div class="flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img class="w-full h-32 object-cover aspect-square" src="{{ url('images/form.png') }}" alt="Form Application" />
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h5 class="text-lg font-bold">Form Application</h5>
+                        <p class="text-gray-600">Please create the form you need here</p>
+                        <x-filament::button 
+                            tag="a" 
+                            href="/form" 
+                            class="mt-4"
+                        >
+                            More Info
+                        </x-filament::button>
+                    </div>
                 </div>
             </x-filament::card>
         @endif
 
+        <!-- Card 3: Measurement Data ESD -->
         @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
             @php $totalJobs++; @endphp
-            <x-filament::card class="max-w-sm">
-                <div class="relative">
-                    <img class="w-full h-48 object-cover aspect-square" src="{{ url('images/scan.png') }}" alt="HR Portal" />
+            <x-filament::card style="max-width: 400px; margin: auto;">
+                <div class="flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img class="w-full h-32 object-cover aspect-square" src="{{ url('images/scan.png') }}" alt="Measurement Data ESD" />
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h5 class="text-lg font-bold">Measurement Data ESD</h5>
+                        <p class="text-gray-600">Page Is Under Maintenance</p>
+                        <p class="text-gray-600">Due Date : 07-10-2024</p>
+                    </div>
                 </div>
-                <div class="space-y-2">
-                    <h5 class="text-lg font-bold">Measurement Data ESD</h5>
-                    <p class="text-gray-600">
-                        Search and scan the QR-Code and find the measurement data
-                    </p>
-                    <x-filament::button 
-                        tag="a" 
-                        href="https://portal.siix-ems.co.id/scanner" 
-                        class="mt-4"
-                    >
-                        More Info
-                    </x-filament::button>
+            </x-filament::card>
+        @endif
+
+        <!-- Card 4: Ticketing Support -->
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+            @php $totalJobs++; @endphp
+            <x-filament::card class="max-w-custom mx-auto">
+                <div class="flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img class="w-full h-32 object-cover aspect-square" src="{{ url('images/ticket.png') }}" alt="Ticketing Support" />
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h5 class="text-lg font-bold">Ticketing Support</h5>
+                        <p class="text-gray-600">Coming Soon</p>
+                    </div>
+                </div>
+            </x-filament::card>
+        @endif
+
+
+        <!-- Card 5: IOT Smart Office -->
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+            @php $totalJobs++; @endphp
+            <x-filament::card class="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+                <div class="flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img class="w-full h-32 object-cover aspect-square" src="{{ url('images/iot.png') }}" alt="IOT Smart Office" />
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h5 class="text-lg font-bold">IOT Smart Office</h5>
+                        <p class="text-gray-600">Coming Soon</p>
+                    </div>
                 </div>
             </x-filament::card>
         @endif

@@ -50,10 +50,11 @@
                     <td>{{ $record->area }}</td>
                     <td>{{ $record->location }}</td>
                     <td class="qr-code">
-                        @php
-                            $qrCode = base64_encode(QrCode::format('svg')->size(30)->generate($record->register_no));
-                        @endphp
-                        <img src="data:image/svg+xml;base64,{{ $qrCode }}" alt="QR Code" />
+                        @if($record->qrCode)
+                            <img src="data:image/svg+xml;base64,{{ $record->qrCode }}" alt="QR Code" style="width: 100px; height: 100px;" />
+                        @else
+                            <span>No QR Code available</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

@@ -2,22 +2,24 @@
 
 namespace App\Filament\Ga\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use App\Models\DataFasilitas;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Resources\Resource;
+use Illuminate\Support\Collection;
+use Filament\Forms\Components\Card;
+use Illuminate\Support\Facades\Blade;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Ga\Resources\DataFasilitasResource\Pages;
 use App\Filament\Ga\Resources\DataFasilitasResource\RelationManagers;
-use App\Models\DataFasilitas;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Card;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Blade;
+use Filament\Forms\Components\ToggleButtons;
 
 class DataFasilitasResource extends Resource
 {
@@ -61,7 +63,19 @@ class DataFasilitasResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('register_no')
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Register No copied')
+                    ->copyMessageDuration(1500),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Use' => 'success',
+                        'Not Use' => 'warning',
+                        'Lost And Scrap' => 'danger'
+                    })
+                    ->sortable(),
                 // Tables\Columns\TextColumn::make('qr_code')
                 //     ->label('QR Code')
                 //     ->html()
@@ -85,9 +99,33 @@ class DataFasilitasResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('area')
+                ->relationship('area', 'area')
+                ->label('Area')
+                ->preload()
             ])
             ->actions([
+                Tables\Actions\Action::make('edit_status')
+                    ->label('Edit Status')
+                    ->icon('heroicon-o-pencil')
+                    ->action(function ($record, array $data) {
+                        $record->update(['status' => $data['status']]);
+                    })
+                    ->form([
+                        ToggleButtons::make('status')
+                            ->options([
+                                'Use' => 'Use',
+                                'Not Use' => 'Not Use',
+                                'Lost And Scrap' => 'Lost And Scrap',
+                            ])
+                            ->colors([
+                                'Use' => 'success',
+                                'Not Use' => 'warning',
+                                'Lost And Scrap' => 'danger',
+                            ])
+                            ->inline()
+                            ->required(),
+                    ]),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

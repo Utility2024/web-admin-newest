@@ -19,15 +19,27 @@ class Feedback extends Model
         'photo',
     ];
 
-    // Define relationship to the Ticket model
+    protected $casts = [
+        'photo' => 'array',
+    ];
+
     public function ticket()
     {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(Ticket::class, 'ticket_id'); // Pastikan 'ticket_id' adalah foreign key yang benar
     }
 
-    // Define relationship to the User model
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id'); // Pastikan 'user_id' adalah foreign key yang benar
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(function ($feedback) {
+            // Update status di model Ticket berdasarkan status feedback terbaru
+            $feedback->ticket()->update(['status' => $feedback->status]);
+        });
     }
 }

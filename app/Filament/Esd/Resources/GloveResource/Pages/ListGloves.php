@@ -16,7 +16,7 @@ class ListGloves extends ListRecords
         return [
             Actions\CreateAction::make(),
             Action::make('customAction')
-                ->url('http://portal.siix-ems.co.id/esd/glove-details')
+                ->url('/esd/glove-details')
                 ->label('Go To All Measurement Of Glove')
                 ->color('success')
         ];
