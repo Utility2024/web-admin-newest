@@ -18,6 +18,7 @@ use Filament\Forms\Components\Card;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Filters\Indicator;
 use Filament\Forms\Components\DatePicker;
@@ -37,6 +38,11 @@ class TrayOutResource extends Resource
 
     protected static ?string $navigationGroup = 'Transactions';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -45,22 +51,25 @@ class TrayOutResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('tray_stock_id')
                             ->label('Plant Buffer / Item PKG')
-                            ->options(TrayStock::all()->pluck('plant_buffer', 'id'))
+                            ->options(TrayStock::all()->mapWithKeys(function ($trayStock) {
+                                return [$trayStock->id => $trayStock->plant_buffer . ' - ' . $trayStock->material . ' (' . $trayStock->plant . ') - ' . $trayStock->material_description];
+                            }))
                             ->required()
+                            ->searchable()
                             ->reactive()
                             ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                 if ($state) {
                                     $trayStock = TrayStock::find($state);
                                     // Set placeholders with the fetched data
-                                    $set('master_racks_id', $trayStock->master_racks_id);
                                     $set('material', $trayStock->material);
                                     $set('plant', $trayStock->plant);
                                     $set('material_description', $trayStock->material_description);
+                                    $set('master_racks_id', $trayStock->master_racks_id); // For display only
                                 } else {
-                                    $set('master_racks_id', null);
                                     $set('material', null);
                                     $set('plant', null);
                                     $set('material_description', null);
+                                    $set('master_racks_id', null); // For display only
                                 }
                             }),
                         Forms\Components\Placeholder::make('material')
@@ -142,13 +151,24 @@ class TrayOutResource extends Resource
                     ->label('Date')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('PIC')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('updater.name')
+                    ->label('Updated By')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()
+                    ->visible(fn () => Auth::user()->isSuperAdmin() || Auth::user()->isSuperAdminWh()),
                 Filter::make('tanggal')
                     ->form([
                         Select::make('created_year')

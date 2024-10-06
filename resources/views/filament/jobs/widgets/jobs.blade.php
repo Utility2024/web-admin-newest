@@ -120,7 +120,7 @@
             </x-filament::card>
         @endif
 
-        @if ($user->isAdminUtility() || $user->isAdminEsd() || $user->isAdminHr() || $user->isAdminGa() || $user->isSuperAdmin() || $user->isManagerAdmin())
+        @if ($user->isSuperAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
             @php $totalJobs++; @endphp
             <x-filament::card class="max-w-sm">
                 <div class="flex flex-col items-center">

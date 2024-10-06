@@ -9,7 +9,7 @@
         @endphp
         
         <!-- Card 1: Human Resource -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh() )
             @php $totalJobs++; @endphp
             <x-filament::card class="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
                 <div class="flex flex-col items-center">
@@ -33,7 +33,7 @@
         @endif
         
         <!-- Card 2: Form Application -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isSecurity() || $user->isManagerAdmin())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isSecurity() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
             @php $totalJobs++; @endphp
             <x-filament::card class="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
                 <div class="flex flex-col items-center">
@@ -56,7 +56,7 @@
         @endif
 
         <!-- Card 3: Measurement Data ESD -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
             @php $totalJobs++; @endphp
             <x-filament::card style="max-width: 400px; margin: auto;">
                 <div class="flex flex-col items-center">
@@ -73,7 +73,7 @@
         @endif
 
         <!-- Card 4: Ticketing Support -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
             @php $totalJobs++; @endphp
             <x-filament::card class="max-w-custom mx-auto">
                 <div class="flex flex-col items-center">
@@ -90,7 +90,7 @@
 
 
         <!-- Card 5: IOT Smart Office -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
             @php $totalJobs++; @endphp
             <x-filament::card class="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
                 <div class="flex flex-col items-center">

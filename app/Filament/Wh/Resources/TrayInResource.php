@@ -18,6 +18,7 @@ use Filament\Forms\Components\Card;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\Filter;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
@@ -44,6 +45,11 @@ class TrayInResource extends Resource
 
     protected static ?string $navigationGroup = 'Transactions';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -52,7 +58,9 @@ class TrayInResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('tray_stock_id')
                             ->label('Plant Buffer / Item PKG')
-                            ->options(TrayStock::all()->pluck('plant_buffer', 'id'))
+                            ->options(TrayStock::all()->mapWithKeys(function ($trayStock) {
+                                return [$trayStock->id => $trayStock->plant_buffer . ' - ' . $trayStock->material . ' (' . $trayStock->plant . ') - ' . $trayStock->material_description];
+                            }))
                             ->required()
                             ->searchable()
                             ->reactive()
@@ -83,7 +91,7 @@ class TrayInResource extends Resource
                             ->label('Material Description')
                             ->content(fn (callable $get) => $get('material_description'))
                             ->visible(fn (callable $get) => $get('tray_stock_id') !== null),
-                            Shout::make('so-important')
+                        Shout::make('so-important')
                             ->content(fn (callable $get) => 'Before entering Products, make sure it is the same as the rack number you choose') // Adjust as necessary
                             ->color(Color::Yellow)
                             ->visible(fn (callable $get) => $get('tray_stock_id') !== null), // Only visible if tray_stock_id is selected
@@ -92,7 +100,7 @@ class TrayInResource extends Resource
                             ->options(MasterRack::all()->pluck('locator_number', 'id'))
                             ->required()
                             ->searchable()
-                            ->visible(fn (callable $get) => $get('tray_stock_id') !== null), // For display only// Only visible if tray_stock_id is selected
+                            ->visible(fn (callable $get) => $get('tray_stock_id') !== null), // For display only
                     ]),
                 Card::make()
                     ->schema([
@@ -101,9 +109,8 @@ class TrayInResource extends Resource
                             ->numeric(),
                     ])
             ]);
-
-
     }
+
 
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -113,6 +120,9 @@ class TrayInResource extends Resource
                     TextEntry::make('traystock.plant_buffer')
                         ->label('Plant Buffer')
                         ->default(fn ($record) => $record->traystock->plant_buffer ?? null),
+                    TextEntry::make('traystock.material')
+                        ->label('Material')
+                        ->default(fn ($record) => $record->traystock->material ?? null),
                     TextEntry::make('masterracks.locator_number')
                         ->label('Locator Number')
                         ->default(fn ($record) => $record->masterracks->locator_number ?? null),
@@ -138,6 +148,9 @@ class TrayInResource extends Resource
                 Tables\Columns\TextColumn::make('traystock.plant_buffer') // Assuming 'masterRack' is the relationship name
                     ->label('Plant Buffer')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('traystock.material')
+                    ->label('Material')
+                    ->default(fn ($record) => $record->traystock->material ?? null),
                 Tables\Columns\TextColumn::make('masterracks.locator_number') // Assuming 'masterRack' is the relationship name
                     ->label('Locator Number')
                     ->searchable(),
@@ -157,13 +170,24 @@ class TrayInResource extends Resource
                     ->label('Date')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('PIC')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('updater.name')
+                    ->label('Updated By')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()
+                    ->visible(fn () => Auth::user()->isSuperAdmin() || Auth::user()->isSuperAdminWh()),
                 Filter::make('tanggal')
                     ->form([
                         Select::make('created_year')

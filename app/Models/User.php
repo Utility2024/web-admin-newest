@@ -26,6 +26,9 @@ class User extends Authenticatable
     const ROLE_ADMINGA = 'ADMINGA';
     const ROLE_SECURITY = 'SECURITY';
     const ROLE_USER = 'USER';
+    const ROLE_SUPERADMINWH = 'SUPERADMINWH';
+    const ROLE_ADMINWH = 'ADMINWH';
+    const ROLE_USERWH = 'USERWH';
 
     const ROLES = [
         self::ROLE_SUPERADMIN => 'SuperAdmin',
@@ -36,6 +39,9 @@ class User extends Authenticatable
         self::ROLE_ADMINGA => 'Admin GA',
         self::ROLE_SECURITY => 'Security',
         self::ROLE_USER => 'User',
+        self::ROLE_SUPERADMINWH => 'Super Admin WH',
+        self::ROLE_ADMINWH => 'Admin WH',
+        self::ROLE_USERWH => 'User WH',
     ];
 
     protected $fillable = [
@@ -143,4 +149,21 @@ class User extends Authenticatable
     {
         return $this->role === self::ROLE_USER;
     }
+
+    public function isSuperAdminWh()
+    {
+        return $this->role === self::ROLE_SUPERADMINWH;
+    }
+
+    public function isAdminWh()
+    {
+        return $this->role === self::ROLE_ADMINWH;
+    }
+
+    public function isUserWh()
+    {
+        return $this->role === self::ROLE_USERWH;
+    }
+    
+
 }

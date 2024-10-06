@@ -38,11 +38,21 @@ class TrayOutRelationManager extends RelationManager
                     ->label('Date')
                     ->dateTime()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label('PIC')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('updater.name')
+                    ->label('Updated By')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

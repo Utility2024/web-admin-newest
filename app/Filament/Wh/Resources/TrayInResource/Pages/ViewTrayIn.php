@@ -2,9 +2,10 @@
 
 namespace App\Filament\Wh\Resources\TrayInResource\Pages;
 
-use App\Filament\Wh\Resources\TrayInResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Wh\Resources\TrayInResource;
 
 class ViewTrayIn extends ViewRecord
 {
@@ -14,6 +15,11 @@ class ViewTrayIn extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
-        ];
+            Action::make('customAction')
+                ->label('Back To Tray Stock')
+                ->icon('heroicon-o-arrow-left-end-on-rectangle')
+                ->color('danger')
+                ->url('/wh/tray-stocks'),
+            ];
     }
 }

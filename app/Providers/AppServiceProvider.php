@@ -40,12 +40,8 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        // FilamentView::registerRenderHook(
-        //     PanelsRenderHook::FOOTER,
-        //     fn (): View => view('footer'),
-
-        // if (env(key: 'APP_ENV') !=='local') {
-        //     URL::forceScheme(scheme:'https');
-        // }
+        if (env(key: 'APP_ENV') !=='local') {
+            URL::forceScheme(scheme:'https');
+        }
     }
 }

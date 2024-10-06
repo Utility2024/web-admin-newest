@@ -25,6 +25,14 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        // Validasi NIK terlebih dahulu
+        if (!$this->validateNik($request->nik)) {
+            return redirect()->back()
+                ->withErrors(['nik' => 'NIK tidak ditemukan atau tidak terdaftar, harap hubungi Human Resource (HR).'])
+                ->withInput();
+        }
+
+        // Lanjutkan dengan validasi lainnya
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
@@ -33,12 +41,7 @@ class RegisterController extends Controller
                 ->withInput();
         }
 
-        if (!$this->validateNik($request->nik)) {
-            return redirect()->back()
-                ->withErrors(['nik' => 'NIK tidak ditemukan atau tidak terdaftar , harap hubungi Human Resource (HR).'])
-                ->withInput();
-        }
-
+        // Buat user baru dan login
         $user = $this->create($request->all());
         auth()->login($user);
 
@@ -48,12 +51,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nik' => ['required', 'integer', 'unique:users'],
+            'nik' => ['required', 'integer'], // Tidak perlu validasi unique:users di sini karena sudah divalidasi di validateNik()
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
-            'nik.unique' => 'NIK sudah terdaftar.',
             'email.unique' => 'Email sudah terdaftar.',
         ]);
     }
@@ -70,7 +72,7 @@ class RegisterController extends Controller
 
     protected function validateNik($nik)
     {
+        // Cek apakah NIK ada di tabel Employee (karyawan)
         return Employee::where('user_login', $nik)->exists();
     }
-
 }

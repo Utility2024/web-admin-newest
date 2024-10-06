@@ -33,7 +33,7 @@ class WhPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->navigationItems([
                 NavigationItem::make('Back')
-                    ->url('http://portal.siix-ems.co.id/jobs')
+                    ->url('/jobs')
                     ->icon('heroicon-o-arrow-left-start-on-rectangle')
                     ->sort(3),
             ])
@@ -66,6 +66,7 @@ class WhPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class,
+                \App\Http\Middleware\CheckWhAccess::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

@@ -65,4 +65,5 @@ class TrayIn extends Model
             $model->updated_by = Auth::id();
         });
     }
+    
 }
