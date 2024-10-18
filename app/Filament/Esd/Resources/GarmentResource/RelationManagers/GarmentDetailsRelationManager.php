@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Colors\Color;
+use Filament\Forms\Components\DatePicker;
 
 class GarmentDetailsRelationManager extends RelationManager
 {
@@ -195,6 +196,7 @@ class GarmentDetailsRelationManager extends RelationManager
                     ->schema([
                         Forms\Components\Textarea::make('remarks')
                             ->nullable(),
+                        DatePicker::make('next_date')
 
                         ])
                 ]);
@@ -274,6 +276,11 @@ class GarmentDetailsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('created_at')
                     ->date()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('next_date')
+                    ->label('Next Date')
+                    ->date()
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

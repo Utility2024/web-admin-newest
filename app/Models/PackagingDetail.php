@@ -17,7 +17,7 @@ class PackagingDetail extends Model
     protected $connection = 'mysql_esd';
     
     protected $fillable = [
-        'packaging_id', 'status', 'item', 'f1', 'f1_scientific', 'judgement', 'remarks'
+        'packaging_id', 'status', 'item', 'f1', 'f1_scientific', 'judgement_f1', 'f2', 'judgement_f2', 'remarks'
     ];
 
     public function packaging()

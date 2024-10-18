@@ -43,6 +43,7 @@
         @endif
 
         <!-- Card 2: Facility Submission -->
+        @if ($user->isUser() || $user->isSuperAdmin() || $user->isUserWh() || $user->isAdminGa() || $user->isAdminWh() || $user->isSuperAdminWh())
         @php $totalJobs++; @endphp
         <x-filament::card class="max-w-sm">
             <div class="flex flex-col items-center">
@@ -72,6 +73,7 @@
                 </div>
             </div>
         </x-filament::card>
+        @endif
 
         @php
             session(['total_jobs' => $totalJobs]);

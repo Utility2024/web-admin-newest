@@ -9,36 +9,39 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            height: 100vh; /* Full viewport height */
         }
         .content {
-            margin: 20px;
-            width: 10cm; /* Lebar tabel 10cm */
+            width: 100%; /* Full width of the container */
+            max-width: 18cm; /* Max width for the table */
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 10px; /* Ukuran font lebih kecil */
+            font-size: 15px; /* Font size */
         }
         th, td {
             border: 1px solid #dddddd;
-            padding: 6px; /* Padding lebih kecil */
-            text-align: center; /* Teks di tengah */
-            vertical-align: middle; /* Konten vertikal di tengah */
+            padding: 6px; /* Padding */
+            text-align: center; /* Center text */
+            vertical-align: middle; /* Center vertically */
         }
         th {
-            background-color: #f2f2f2; /* Warna latar belakang abu-abu muda */
+            background-color: #f2f2f2; /* Header background color */
         }
         tr:nth-child(even) {
-            background-color: #ffffff; /* Warna latar belakang putih */
+            background-color: #ffffff; /* Alternate row color */
         }
         .header-row td {
-            font-weight: bold; /* Font tebal untuk nama kolom */
-            background-color: #f2f2f2; /* Warna latar belakang abu-abu muda */
+            font-weight: bold; /* Bold font for header */
+            background-color: #f2f2f2; /* Header background color */
         }
         .qr-code img {
             display: block;
-            margin: 0 auto; /* Posisikan gambar di tengah */
+            margin: 0 auto; /* Center image */
         }
     </style>
 </head>
@@ -46,20 +49,11 @@
     <div class="content">
         <table>
             <tbody>
-                @foreach($records as $record)
-                    <tr class="header-row">
-                        <td>Register No</td>
-                        <td>QR Code For Request</td>
-                    </tr>
+                @foreach(array_chunk($records->toArray(), 3) as $chunk)
                     <tr>
-                        <td>{{ $record->register_no }}</td>
-                        <td class="qr-code">
-                            @php
-                                // Generate QR code yang berisi link Google Form
-                                $qrCode = base64_encode(QrCode::format('svg')->size(50)->generate('bit.ly/request_assets'));
-                            @endphp
-                            <img src="data:image/svg+xml;base64,{{ $qrCode }}" alt="QR Code" />
-                        </td>
+                        @foreach($chunk as $record)
+                            <td>{{ $record['register_no'] }}</td> <!-- Use array syntax -->
+                        @endforeach
                     </tr>
                 @endforeach
             </tbody>

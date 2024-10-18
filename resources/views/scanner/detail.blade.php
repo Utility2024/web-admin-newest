@@ -36,7 +36,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Equipment Ground</td>
+                                <th>Equipment Ground</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Monthly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -100,10 +105,9 @@
                                     @php
                                         $user = \App\Models\User::find($d->created_by);
                                     @endphp
-
                                     <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($d->next_date)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -129,7 +133,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Flooring</td>
+                                <th>Flooring</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Yearly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -153,7 +162,9 @@
                                 <th>B1 Scientific</th>
                                 <th>Judgement</th>
                                 <th>Remarks</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -171,7 +182,12 @@
                                         @endif
                                     </td>
                                     <td>{{ $d->remarks }}</td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -197,7 +213,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Worksurface</td>
+                                <th>Worksurface</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Yearly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -265,7 +286,7 @@
                                     @endphp
                                     <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($d->next_date)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -291,7 +312,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Ground Monitor Box</td>
+                                <th>Ground Monitor Box</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Yearly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -319,7 +345,9 @@
                                 <th>No</th>
                                 <th>G1</th>
                                 <th>G2</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -344,7 +372,12 @@
                                             {{ $d->g2 }}
                                         @endif
                                     </td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -370,7 +403,7 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Glove</td>
+                                <th>Glove</th>
                             </tr>
                         </tbody>
                     </table>
@@ -433,7 +466,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Garment</td>
+                                <th>Garment</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Yearly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -555,7 +593,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Soldering Iron</td>
+                                <th>Soldering Iron</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Yearly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -579,7 +622,9 @@
                                 <th>E1</th>
                                 <th>Judgement</th>
                                 <th>Remarks</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -597,7 +642,12 @@
                                         @endif
                                     </td>
                                     <td>{{ $d->remarks }}</td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -618,7 +668,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Packaging</td>
+                                <th>Packaging</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Yearly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -629,6 +684,11 @@
                                     <th>( F1 ) Dissipative Packaging Point To Point</th>
                                     <th>:</th>
                                     <td>1.00E+4 - 1.00E+11 Ohm</td>
+                                </tr>
+                                <tr>
+                                    <th>( F2 ) Surface static field voltage</th>
+                                    <th>:</th>
+                                    <td>( < +/- 100 Volts )</td>
                                 </tr>
                             <h5 class="card-footer text-center">Doc No : QR-ADM-22-K023</h5>
                         </tbody>
@@ -641,9 +701,13 @@
                                 <th>No</th>
                                 <th>Item</th>
                                 <th>F1 Scientific</th>
-                                <th>Judgement</th>
+                                <th>Judgement F1</th>
+                                <th>F2</th>
+                                <th>Judgement F2</th>
                                 <th>Remark</th>
+                                <th>Tech</th>
                                 <th>Date</th>
+                                <th>Next Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -653,16 +717,31 @@
                                     <td>{{ $d->item }}</td>
                                     <td>{{ $d->f1_scientific }}</td>
                                     <td>
-                                        @if ($d->judgement == 'OK')
-                                            <span class="badge bg-success">{{ $d->judgement }}</span>
-                                        @elseif ($d->judgement == 'NG')
-                                            <span class="badge bg-danger">{{ $d->judgement }}</span>
+                                        @if ($d->judgement_f1 == 'OK')
+                                            <span class="badge bg-success">{{ $d->judgement_f1 }}</span>
+                                        @elseif ($d->judgement_f1 == 'NG')
+                                            <span class="badge bg-danger">{{ $d->judgement_f1 }}</span>
                                         @else
-                                            {{ $d->judgement }}
+                                            {{ $d->judgement_f1 }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $d->f2 }}</td>
+                                    <td>
+                                        @if ($d->judgement_f2 == 'OK')
+                                            <span class="badge bg-success">{{ $d->judgement_f2 }}</span>
+                                        @elseif ($d->judgement_f2 == 'NG')
+                                            <span class="badge bg-danger">{{ $d->judgement_f2 }}</span>
+                                        @else
+                                            {{ $d->judgement_f2 }}
                                         @endif
                                     </td>
                                     <td>{{ $d->remarks }}</td>
+                                    @php
+                                        $user = \App\Models\User::find($d->created_by);
+                                    @endphp
+                                    <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -688,7 +767,12 @@
                             <tr>
                                 <th>Measurement Type</th>
                                 <th>:</th>
-                                <td>Ionization</td>
+                                <th>Ionization</th>
+                            </tr>
+                            <tr>
+                                <th>Frequency</th>
+                                <th>:</th>
+                                <th>Monthly</th>
                             </tr>
                         </tbody>
                     </table>
@@ -816,10 +900,9 @@
                                     @php
                                         $user = \App\Models\User::find($d->created_by);
                                     @endphp
-
                                     <td>{{ optional($user)->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($d->created_at)->format('d F Y') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($d->next_date)->format('d F Y') }}</td>
+                                    <td>{{ $d->next_date ? \Carbon\Carbon::parse($d->next_date)->format('d F Y') : '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

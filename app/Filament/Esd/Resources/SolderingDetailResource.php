@@ -161,6 +161,10 @@ class SolderingDetailResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label('Date')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('next_date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('updated_at')

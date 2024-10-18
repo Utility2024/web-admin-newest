@@ -16,7 +16,7 @@ class FlooringDetail extends Model
 
     protected $connection = 'mysql_esd';
 
-    protected $fillable = ['flooring_id', 'area', 'location', 'b1', 'b1_scientific', 'judgement', 'remarks'];
+    protected $fillable = ['flooring_id', 'area', 'location', 'b1', 'b1_scientific', 'judgement', 'remarks', 'next_date'];
 
     public function flooring()
     {

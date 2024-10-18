@@ -259,8 +259,9 @@ class ComelateEmployeeResource extends Resource
                     ->label('Filter'),
             )
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->button()
+                    ->hidden(fn ($record) => Carbon::now()->diffInMinutes($record->created_at) >= 1440), // Hide if more than 5 minutes
                 Tables\Actions\DeleteAction::make()
                     ->before(function ($record, array $data) {
                         if (empty($data['reason_to_delete'])) {
@@ -275,7 +276,8 @@ class ComelateEmployeeResource extends Resource
                             ->label('Reason to Delete')
                             ->placeholder('Masukkan alasan untuk menghapus data')
                             ->required(),
-                    ]),
+                    ])
+                    ->button(),
                 Tables\Actions\ForceDeleteAction::make()
                         ->hidden(function () {
                             return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN

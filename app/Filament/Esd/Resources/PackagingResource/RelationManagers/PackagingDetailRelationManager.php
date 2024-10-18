@@ -16,6 +16,8 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
+use Awcodes\Shout\Components\Shout;
+use Filament\Support\Colors\Color;
 
 class PackagingDetailRelationManager extends RelationManager
 {
@@ -68,7 +70,32 @@ class PackagingDetailRelationManager extends RelationManager
                             ->rules('required')
                             ->disabled()
                             ->dehydrated(),
-                        Forms\Components\ToggleButtons::make('judgement')
+                        Forms\Components\ToggleButtons::make('judgement_f1')
+                            ->options([
+                                'OK' => 'OK',
+                                'NG' => 'NG'
+                            ])
+                            ->colors([
+                                'OK' => 'success',
+                                'NG' => 'danger'
+                            ])
+                            ->inline()
+                            ->disabled()
+                            ->dehydrated(),
+
+                        Shout::make('so-important')
+                            ->content('Surface static field voltage ( < +/- 100 Volts )')
+                            ->color(Color::Yellow),
+                        Forms\Components\TextInput::make('f2')
+                            ->required()
+                            ->numeric()
+                            ->label('F2')
+                            ->reactive() // Make the field reactive
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                // Set the value of 'judgement' based on 'e1' value
+                                $set('judgement_f2', $state > 100.00 ? 'NG' : 'OK');
+                            }),
+                        Forms\Components\ToggleButtons::make('judgement_f2')
                             ->options([
                                 'OK' => 'OK',
                                 'NG' => 'NG'
@@ -91,17 +118,48 @@ class PackagingDetailRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('packaging_id')
             ->columns([
-                TextColumn::make('id')->sortable()->searchable(),
-                TextColumn::make('item')->sortable()->searchable(),
-                TextColumn::make('f1_scientific')->sortable()->searchable(),
-                TextColumn::make('judgement')->sortable()->searchable()
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'OK' => 'success',
-                        'NG' => 'danger',
-                    }),
-                TextColumn::make('remarks')->sortable()->searchable(),
-                TextColumn::make('created_at')->date()->sortable()->searchable(),
+                    TextColumn::make('id')->sortable()->searchable(),
+                    TextColumn::make('packaging.register_no')->label('Packaging')->sortable()->searchable(),
+                    TextColumn::make('packaging.status')->label('Status')->sortable()->searchable(),
+                    TextColumn::make('item')->sortable()->searchable(),
+                    TextColumn::make('f1_scientific')->sortable()->searchable(),
+                    TextColumn::make('judgement_f1')->sortable()->searchable()
+                        ->label('Judgement F1')
+                        ->badge()
+                        ->color(fn (string $state): string => match ($state) {
+                            'OK' => 'success',
+                            'NG' => 'danger',
+                        }),
+                    TextColumn::make('f2')->sortable()->searchable(),
+                    TextColumn::make('judgement_f2')->sortable()->searchable()
+                        ->label('Judgement F2')
+                        ->badge()
+                        ->color(fn (string $state): string => match ($state) {
+                            'OK' => 'success',
+                            'NG' => 'danger',
+                        }),
+                    TextColumn::make('remarks')->sortable()->searchable(),
+                    TextColumn::make('creator.name')
+                        ->label('Created By')
+                        ->sortable()
+                        ->searchable()
+                        ->toggleable(isToggledHiddenByDefault: true),
+                    TextColumn::make('updater.name')
+                        ->label('Updated By')
+                        ->sortable()
+                        ->searchable()
+                        ->toggleable(isToggledHiddenByDefault: true),
+                    TextColumn::make('created_at')
+                        ->label('Date')
+                        ->date()
+                        ->sortable(),
+                    TextColumn::make('next_date')
+                        ->date()
+                        ->sortable(),
+                    TextColumn::make('updated_at')
+                        ->dateTime()
+                        ->sortable()
+                        ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

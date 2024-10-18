@@ -29,7 +29,6 @@ use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists\Components\Card as InfolistCard;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-
 use App\Filament\Esd\Resources\PackagingDetailResource\Pages\EditPackagingDetail;
 use App\Filament\Esd\Resources\PackagingDetailResource\Pages\ViewPackagingDetail;
 use App\Filament\Esd\Resources\PackagingDetailResource\Pages\ListPackagingDetails;
@@ -96,7 +95,7 @@ class PackagingDetailResource extends Resource
     
                                     // Update judgement
                                     $judgement = ($state < 10000 || $state > 100000000000) ? 'NG' : 'OK';
-                                    $set('judgement', $judgement);
+                                    $set('judgement_f1', $judgement);
                                 }
                             }),
 
@@ -105,7 +104,7 @@ class PackagingDetailResource extends Resource
                             ->rules('required')
                             ->disabled()
                             ->dehydrated(),
-                        Forms\Components\ToggleButtons::make('judgement')
+                        Forms\Components\ToggleButtons::make('judgement_f1')
                             ->options([
                                 'OK' => 'OK',
                                 'NG' => 'NG'
@@ -118,6 +117,33 @@ class PackagingDetailResource extends Resource
                             ->disabled()
                             ->dehydrated(),
                         ]),
+                Card::make()
+                    ->schema([
+                    Shout::make('so-important')
+                         ->content('Surface static field voltage ( < +/- 100 Volts )')
+                         ->color(Color::Yellow),
+                    Forms\Components\TextInput::make('f2')
+                        ->required()
+                        ->numeric()
+                        ->label('F2')
+                        ->reactive() // Make the field reactive
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            // Set the value of 'judgement' based on 'e1' value
+                            $set('judgement_f2', $state > 100.00 ? 'NG' : 'OK');
+                        }),
+                    Forms\Components\ToggleButtons::make('judgement_f2')
+                        ->options([
+                            'OK' => 'OK',
+                            'NG' => 'NG'
+                        ])
+                        ->colors([
+                            'OK' => 'success',
+                            'NG' => 'danger'
+                        ])
+                        ->inline()
+                        ->disabled()
+                        ->dehydrated(),
+                    ]),
                 Card::make()
                     ->schema([
                         Textarea::make('remarks')
@@ -137,7 +163,14 @@ class PackagingDetailResource extends Resource
                 ])->columns(2),
                 InfolistCard::make([
                     TextEntry::make('f1_scientific')->label('F1 Scientific'),
-                    TextEntry::make('judgement')->label('Judgement')
+                    TextEntry::make('judgement_f1')->label('Judgement F1')
+                        ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'OK' => 'success',
+                                'NG' => 'danger',
+                            }),
+                    TextEntry::make('f2')->label('F2'),
+                    TextEntry::make('judgement_f2')->label('Judgement F2')
                         ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'OK' => 'success',
@@ -146,7 +179,8 @@ class PackagingDetailResource extends Resource
                 ])->columns(2),
                 InfolistCard::make([
                     TextEntry::make('remarks')->label('Remarks'),
-                    TextEntry::make('created_at')->label('Created At')->date(),
+                    TextEntry::make('created_at')->label('Date')->date(),
+                    TextEntry::make('next_date')->label('Next Date')->date(),
                 ])->columns(2),
             ]);
     }
@@ -160,7 +194,16 @@ class PackagingDetailResource extends Resource
                 TextColumn::make('packaging.status')->label('Status')->sortable()->searchable(),
                 TextColumn::make('item')->sortable()->searchable(),
                 TextColumn::make('f1_scientific')->sortable()->searchable(),
-                TextColumn::make('judgement')->sortable()->searchable()
+                TextColumn::make('judgement_f1')->sortable()->searchable()
+                    ->label('Judgement F1')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'OK' => 'success',
+                        'NG' => 'danger',
+                    }),
+                TextColumn::make('f2')->sortable()->searchable(),
+                TextColumn::make('judgement_f2')->sortable()->searchable()
+                    ->label('Judgement F2')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'OK' => 'success',
@@ -178,6 +221,10 @@ class PackagingDetailResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label('Date')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('next_date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('updated_at')

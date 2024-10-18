@@ -30,19 +30,74 @@ class EmployeeResource extends Resource
 
     public static function infolist(Infolist $infolist): Infolist
     {
+        $alasanCounts = [
+            'Macet Lalulintas',
+            'Masalah Kendaraan',
+            'Telat Berangkat',
+            'Keperluan Pribadi',
+            'Keperluan Keluarga',
+        ];
+
         return $infolist
             ->schema([
                 InfolistCard::make([
-                    TextEntry::make('Display_Name')
-                        ->label('Name'),
-                    TextEntry::make('user_login')
-                        ->label('NIK'),
+                    TextEntry::make('Display_Name')->label('Name'),
+                    TextEntry::make('user_login')->label('NIK'),
                     TextEntry::make('Departement'),
                     TextEntry::make('Last_Jobs'),
                     TextEntry::make('Last_Route'),
-                ])->columns(2),
+                ]),
+                InfolistCard::make([
+                    TextEntry::make('related_count_macet_lalulintas')
+                        ->label('Macet Lalulintas')
+                        ->badge()
+                        ->color('primary')
+                        ->getStateUsing(function ($record) {
+                            return ComelateEmployee::where('nik', $record->user_login)
+                                ->where('alasan_terlambat', 'Macet Lalulintas')
+                                ->count();
+                        }),
+                    TextEntry::make('related_count_masalah_kendaraan')
+                        ->label('Masalah Kendaraan')
+                        ->badge()
+                        ->color('primary')
+                        ->getStateUsing(function ($record) {
+                            return ComelateEmployee::where('nik', $record->user_login)
+                                ->where('alasan_terlambat', 'Masalah Kendaraan')
+                                ->count();
+                        }),
+                    TextEntry::make('related_count_telat_berangkat')
+                        ->label('Telat Berangkat')
+                        ->badge()
+                        ->color('primary')
+                        ->getStateUsing(function ($record) {
+                            return ComelateEmployee::where('nik', $record->user_login)
+                                ->where('alasan_terlambat', 'Telat Berangkat')
+                                ->count();
+                        }),
+                    TextEntry::make('related_count_keperluan_pribadi')
+                        ->label('Keperluan Pribadi')
+                        ->badge()
+                        ->color('primary')
+                        ->getStateUsing(function ($record) {
+                            return ComelateEmployee::where('nik', $record->user_login)
+                                ->where('alasan_terlambat', 'Keperluan Pribadi')
+                                ->count();
+                        }),
+                    TextEntry::make('related_count_keperluan_keluarga')
+                        ->label('Keperluan Keluarga')
+                        ->badge()
+                        ->color('primary')
+                        ->getStateUsing(function ($record) {
+                            return ComelateEmployee::where('nik', $record->user_login)
+                                ->where('alasan_terlambat', 'Keperluan Keluarga')
+                                ->count();
+                        }),
+                ])->columns(5),
             ]);
     }
+
+
 
     public static function table(Table $table): Table
     {

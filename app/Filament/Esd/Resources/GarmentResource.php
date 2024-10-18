@@ -18,6 +18,7 @@ use App\Filament\Esd\Resources\GarmentResource\Pages;
 use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Esd\Resources\GarmentResource\RelationManagers;
 use App\Filament\Esd\Resources\GarmentResource\RelationManagers\GarmentDetailsRelationManager;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class GarmentResource extends Resource
 {
@@ -87,6 +88,8 @@ class GarmentResource extends Resource
                 Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
+                ExportBulkAction::make()
+                    ->label('Export Excel'),
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),

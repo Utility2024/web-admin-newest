@@ -65,8 +65,14 @@
                     </div>
                     <div class="space-y-2 text-center">
                         <h5 class="text-lg font-bold">Measurement Data ESD</h5>
-                        <p class="text-gray-600">Page Is Under Maintenance</p>
-                        <p class="text-gray-600">Due Date : 07-10-2024</p>
+                        <p class="text-gray-600">Search And Scan the QR-Code and find the measurement data</p>
+                        <x-filament::button 
+                            tag="a" 
+                            href="https://portal.siix-ems.co.id/scanner" 
+                            class="mt-4"
+                        >
+                            More Info
+                        </x-filament::button>
                     </div>
                 </div>
             </x-filament::card>

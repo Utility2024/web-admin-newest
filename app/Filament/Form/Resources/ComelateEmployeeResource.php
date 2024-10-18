@@ -257,8 +257,9 @@ class ComelateEmployeeResource extends Resource
                     ->label('Filter'),
             )
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->button()
+                    ->hidden(fn ($record) => Carbon::now()->diffInMinutes($record->created_at) >= 1440), // Hide if more than 5 minutes
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),

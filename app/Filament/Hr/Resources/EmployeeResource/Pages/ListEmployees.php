@@ -2,9 +2,9 @@
 
 namespace App\Filament\Hr\Resources\EmployeeResource\Pages;
 
-use App\Filament\Hr\Resources\EmployeeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Hr\Resources\EmployeeResource;
 
 class ListEmployees extends ListRecords
 {

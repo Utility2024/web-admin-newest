@@ -25,8 +25,8 @@ class Packaging extends Model
 
     public function getJudgementCountsAttribute()
     {
-        $okCount = PackagingDetail::where('packaging_id', $this->id)->where('judgement', 'OK')->count();
-        $ngCount = PackagingDetail::where('packaging_id', $this->id)->where('judgement', 'NG')->count();
+        $okCount = PackagingDetail::where('packaging_id', $this->id)->where('judgement_f1', 'OK')->count();
+        $ngCount = PackagingDetail::where('packaging_id', $this->id)->where('judgement_f1', 'NG')->count();
 
         return [
             'ok' => $okCount,

@@ -13,7 +13,7 @@ class ViewComelateEmployee extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            //Actions\EditAction::make(),
             Actions\ForceDeleteAction::make(),
             Actions\RestoreAction::make(),
         ];

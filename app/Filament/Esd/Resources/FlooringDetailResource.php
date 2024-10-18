@@ -117,6 +117,7 @@ class FlooringDetailResource extends Resource
                     Textarea::make('remarks')
                         ->maxLength(255)
                         ->label('Remarks'),
+                    DatePicker::make('next_date')
                 ]),
             ]);
     }
@@ -141,7 +142,8 @@ class FlooringDetailResource extends Resource
                 ])->columns(2),
                 InfolistCard::make([
                     TextEntry::make('remarks')->label('Remarks'),
-                    TextEntry::make('created_at')->label('Created At')->date(),
+                    TextEntry::make('created_at')->label('Date')->date(),
+                    TextEntry::make('next_date')->label('Next Date')->date(),
                 ])->columns(2),
             ]);
     }
@@ -173,6 +175,10 @@ class FlooringDetailResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label('Date')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('next_date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('updated_at')

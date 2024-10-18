@@ -39,6 +39,6 @@ class Garment extends Model
     }
     public function garmentDetails()
     {
-        return $this->hasMany(GarmentDetail::class, 'nik', 'user_login');
+        return $this->hasMany(GarmentDetail::class, 'nik', 'ID');
     }
 }

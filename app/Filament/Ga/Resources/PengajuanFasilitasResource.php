@@ -2,6 +2,7 @@
 
 namespace App\Filament\Ga\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\Area;
 use Filament\Tables;
@@ -80,8 +81,9 @@ class PengajuanFasilitasResource extends Resource
                                     'Register Baru Fasilitas' => 'Register Baru Fasilitas',
                                     'Pergantian Fasilitas' => 'Pergantian Fasilitas',
                                     'Pengajuan Perpindahan / Perubahan Area' => 'Pengajuan Perpindahan / Perubahan Area',
-                                    'Pengajuan Perpindahan Kepemilikan / User' => 'Pengajuan Perpindahan Kepemilikan / User'
+                                    'Pengajuan Perpindahan Kepemilikan / User' => 'Pengajuan Perpindahan Kepemilikan / User',
                                 ])
+                                ->reactive()
                                 ->inline(),
                             Forms\Components\Select::make('jenis_fasilitas')
                                 ->options([
@@ -99,7 +101,10 @@ class PengajuanFasilitasResource extends Resource
                                 ]),
                             Forms\Components\TextInput::make('nomor_identitas_fasilitas')
                                 ->maxLength(255)
-                                ->placeholder('Example : KNT/MPA/2408-113 (Optional Jika Sudah ter-Regist)'),
+                                ->required(fn (Forms\Get $get) => $get('jenis_pengajuan_fasilitas') === 'Pergantian Fasilitas') // Menentukan bahwa ini wajib diisi jika 'jenis_pengajuan_fasilitas' adalah 'Pergantian Fasilitas'
+                                ->visible(fn (Forms\Get $get) => $get('jenis_pengajuan_fasilitas') === 'Pergantian Fasilitas') // Menyembunyikan jika tidak memilih 'Pergantian Fasilitas'
+                                ->label('Nomor Identitas Fasilitas')
+                                ->placeholder('Example : KNT/MPA/2408-113'),
                             FileUpload::make('foto_fasilitas')
                                 ->label('Foto Fasilitas')
                                 ->disk('public')
@@ -195,14 +200,19 @@ class PengajuanFasilitasResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->button(),
+                Tables\Actions\EditAction::make()
+                    ->button()
+                    ->hidden(fn ($record) => Carbon::now()->diffInMinutes($record->created_at) >= 1440), // Hide if more than 5 minutes
+                Tables\Actions\DeleteAction::make()
+                    ->button(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->hidden(function () {
+                        return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                    }),
             ]);
     }
 

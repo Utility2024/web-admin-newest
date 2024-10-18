@@ -249,8 +249,9 @@ class TrayOutResource extends Resource
             ->filtersFormWidth(MaxWidth::TwoExtraLarge)
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->button(),
-                    Tables\Actions\DeleteAction::make()
+                    ->button()
+                    ->hidden(fn ($record) => Carbon::now()->diffInMinutes($record->created_at) >= 1440), // Hide if more than 5 minutes 
+                Tables\Actions\DeleteAction::make()
                     ->button()
                     ->before(function ($record, array $data) {
                         if (empty($data['reason_to_delete'])) {
@@ -273,15 +274,24 @@ class TrayOutResource extends Resource
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
-                    ExportBulkAction::make()
-                        ->label('Export Excel'),
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make()
-                        ->hidden(function () {
-                            return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN
-                        }),
-                    Tables\Actions\RestoreBulkAction::make(),
-            ]);
+                ExportBulkAction::make()
+                    ->label('Export Excel')
+                    ->hidden(function () {
+                        return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh() && !auth()->user()->isAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                    }),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->hidden(function () {
+                        return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                    }),
+                Tables\Actions\ForceDeleteBulkAction::make()
+                    ->hidden(function () {
+                        return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                    }),
+                Tables\Actions\RestoreBulkAction::make()
+                    ->hidden(function () {
+                        return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                    }),
+        ]);
     }
 
     public static function getRelations(): array

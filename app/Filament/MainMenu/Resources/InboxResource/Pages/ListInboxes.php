@@ -18,6 +18,11 @@ class ListInboxes extends ListRecords
         ];
     }
 
+    public function getTitle(): string
+    {
+        return "Inbox";
+    }
+
     protected function getTableQuery(): Builder
     {
         $user = Auth::user();

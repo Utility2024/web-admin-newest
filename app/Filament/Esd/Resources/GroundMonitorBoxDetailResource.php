@@ -120,7 +120,8 @@ class GroundMonitorBoxDetailResource extends Resource
                 ])->columns(2),
                 InfolistCard::make([
                     TextEntry::make('remarks')->label('Remarks'),
-                    TextEntry::make('created_at')->label('Created At')->date(),
+                    TextEntry::make('created_at')->label('Date')->date(),
+                    TextEntry::make('next_date')->label('Next Date')->date(),
                 ])->columns(2),
             ]);
     }
@@ -157,6 +158,10 @@ class GroundMonitorBoxDetailResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('next_date')
+                    ->label('Next Date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('updated_at')

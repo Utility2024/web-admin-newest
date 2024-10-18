@@ -6,6 +6,7 @@ use App\Filament\Ga\Resources\PengajuanFasilitasResource;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Ga\Resources\PengajuanFasilitasResource\Widgets\WarningFacility;
 
 class ListPengajuanFasilitas extends ListRecords
 {
@@ -34,5 +35,13 @@ class ListPengajuanFasilitas extends ListRecords
 
         // Filter data berdasarkan field created_by
         return parent::getTableQuery()->where('created_by', $user->id);
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            WarningFacility::class,
+        ];
     }
 }

@@ -8,6 +8,7 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Form\Resources\ComelateEmployeeResource;
+use App\Filament\Ga\Resources\PengajuanFasilitasResource\Widgets\WarningFacility;
 
 class ListComelateEmployees extends ListRecords
 {
@@ -27,6 +28,14 @@ class ListComelateEmployees extends ListRecords
     public function getTitle():string
     {
         return "History Comelate";
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            WarningFacility::class,
+        ];
     }
 
     public function getTabs(): array

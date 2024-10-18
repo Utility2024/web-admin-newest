@@ -2,9 +2,10 @@
 
 namespace App\Filament\Wh\Resources\TrayInResource\Pages;
 
-use App\Filament\Wh\Resources\TrayInResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Wh\Resources\TrayInResource;
+use App\Filament\Wh\Resources\TrayInResource\Widgets\WarningWh;
 
 class ListTrayIns extends ListRecords
 {
@@ -20,5 +21,13 @@ class ListTrayIns extends ListRecords
     public function getTitle(): string
     {
         return "Tray In";
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            WarningWh::class,
+        ];
     }
 }

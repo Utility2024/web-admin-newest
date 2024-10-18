@@ -168,13 +168,22 @@ class MasterRackResource extends Resource
             ])
             ->bulkActions([
                     ExportBulkAction::make()
-                        ->label('Export Excel'),
-                    Tables\Actions\DeleteBulkAction::make(),
+                        ->label('Export Excel')
+                        ->hidden(function () {
+                            return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh() && !auth()->user()->isAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                        }),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->hidden(function () {
+                            return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                        }),
                     Tables\Actions\ForceDeleteBulkAction::make()
                         ->hidden(function () {
                             return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN
                         }),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->hidden(function () {
+                            return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
+                        }),
             ]);
     }
 

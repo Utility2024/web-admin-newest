@@ -13,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Forms\Components\DatePicker;
 
 class FlooringDetailRelationManager extends RelationManager
 {
@@ -77,6 +78,7 @@ class FlooringDetailRelationManager extends RelationManager
                     Textarea::make('remarks')
                         ->maxLength(255)
                         ->label('Remarks'),
+                    DatePicker::make('next_date')
                 ]),
             ]);
     }
@@ -95,7 +97,16 @@ class FlooringDetailRelationManager extends RelationManager
                         'NG' => 'danger',
                     }),
                 TextColumn::make('remarks')->sortable()->searchable()->label('Remarks'),
-                TextColumn::make('created_at')->date()->sortable()->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Date')
+                    ->date()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('next_date')
+                    ->label('Next Date')
+                    ->date()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

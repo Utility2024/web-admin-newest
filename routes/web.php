@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LampController;
 use App\Http\Controllers\QrScannerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\WorksurfaceController;
@@ -43,6 +44,11 @@ Route::post('reset-password', [PasswordResetController::class, 'reset'])
     ->name('password.update');
 
 Route::get('/worksurface-pdf', [WorksurfaceController::class, 'generatePdf']);
+
+// routes/web.php
+Route::post('/toggle-lamp', [LampController::class, 'toggleLamp']);
+Route::get('/lamps', [LampController::class, 'index'])->name('lamps.index');
+
     
 
 // Add authentication middleware to the routes for QrScannerController

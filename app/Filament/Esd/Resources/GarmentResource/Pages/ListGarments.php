@@ -14,7 +14,7 @@ class ListGarments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
             Action::make('customAction')
                 ->url('/esd/garment-details')
                 ->label('Go To All Measurement Of Garment')

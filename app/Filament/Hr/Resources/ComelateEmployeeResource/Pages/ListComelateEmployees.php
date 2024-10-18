@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Ga\Resources\PengajuanFasilitasResource\Widgets\WarningFacility;
 
 class ListComelateEmployees extends ListRecords
 {
@@ -16,6 +17,14 @@ class ListComelateEmployees extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            WarningFacility::class,
         ];
     }
 

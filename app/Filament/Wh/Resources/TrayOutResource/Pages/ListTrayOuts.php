@@ -2,9 +2,10 @@
 
 namespace App\Filament\Wh\Resources\TrayOutResource\Pages;
 
-use App\Filament\Wh\Resources\TrayOutResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Wh\Resources\TrayOutResource;
+use App\Filament\Wh\Resources\TrayOutResource\Widgets\WarningWh;
 
 class ListTrayOuts extends ListRecords
 {
@@ -20,5 +21,13 @@ class ListTrayOuts extends ListRecords
     public function getTitle(): string
     {
         return "Tray Out";
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            WarningWh::class,
+        ];
     }
 }
