@@ -57,14 +57,16 @@ class ComelateEmployeeResource extends Resource
                                     });
                             })
                             ->afterStateUpdated(function (callable $set, $state) {
-                                // Temukan employee berdasarkan user_login
+                                // Find the employee based on user_login
                                 $employee = Employee::query()->where('user_login', $state)->first();
                                 if ($employee) {
                                     $set('name', $employee->Display_Name);
                                     $set('department', $employee->Departement);
+                                    $set('status', 'Active'); // Set status to Active
                                 } else {
                                     $set('name', null);
                                     $set('department', null);
+                                    $set('status', 'Tidak Active'); // Set status to Tidak Active
                                 }
                             }),
                         Forms\Components\TextInput::make('name')
@@ -74,6 +76,11 @@ class ComelateEmployeeResource extends Resource
                             ->dehydrated(),
                         Forms\Components\TextInput::make('department')
                             ->label('Department')
+                            ->required()
+                            ->disabled()
+                            ->dehydrated(),
+                        Forms\Components\TextInput::make('status')
+                            ->label('Status')
                             ->required()
                             ->disabled()
                             ->dehydrated(),
@@ -108,6 +115,7 @@ class ComelateEmployeeResource extends Resource
                     ])->columns(2)
             ]);
     }
+    
 
     public static function infolist(Infolist $infolist): Infolist
     {
@@ -118,6 +126,7 @@ class ComelateEmployeeResource extends Resource
                     TextEntry::make('name'),
                     TextEntry::make('department'),
                     TextEntry::make('shift'),
+                    TextEntry::make('status'),
                     TextEntry::make('alasan_terlambat'),
                     TextEntry::make('nama_security'),
                     TextEntry::make('tanggal'),
@@ -143,6 +152,13 @@ class ComelateEmployeeResource extends Resource
                 Tables\Columns\TextColumn::make('department')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('shift')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Active' => 'success',
+                        'Tidak Active' => 'danger',
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('alasan_terlambat')
                     ->searchable(),

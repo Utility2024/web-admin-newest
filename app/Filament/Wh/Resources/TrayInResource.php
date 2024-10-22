@@ -59,7 +59,7 @@ class TrayInResource extends Resource
                         Forms\Components\Select::make('tray_stock_id')
                             ->label('Plant Buffer / Item PKG')
                             ->options(TrayStock::all()->mapWithKeys(function ($trayStock) {
-                                return [$trayStock->id => $trayStock->plant_buffer . ' - ' . $trayStock->material . ' (' . $trayStock->plant . ') - ' . $trayStock->material_description];
+                                return [$trayStock->id => $trayStock->material . ' (' . $trayStock->material_description . ') '];
                             }))
                             ->required()
                             ->searchable()

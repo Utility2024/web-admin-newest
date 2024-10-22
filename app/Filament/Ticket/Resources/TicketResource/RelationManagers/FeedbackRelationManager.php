@@ -4,16 +4,19 @@ namespace App\Filament\Ticket\Resources\TicketResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Ticket;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Ticket;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class FeedbackRelationManager extends RelationManager
 {
-    protected static string $relationship = 'feedback';
+    protected static string $relationship = 'feedbacks';
+    
+    protected static ?string $recordTitleAttribute = 'content';
 
     public function form(Form $form): Form
     {
@@ -130,7 +133,7 @@ class FeedbackRelationManager extends RelationManager
             ->filters([
                 // Tambahkan filter jika diperlukan
             ])
-            ->headerActions($user->isUser() ? [] : [
+            ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions($user->isUser() ? [] : [
@@ -142,5 +145,10 @@ class FeedbackRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

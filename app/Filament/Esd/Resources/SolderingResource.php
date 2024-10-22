@@ -137,13 +137,13 @@ class SolderingResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            SolderingDetailRelationManager::class,
+    // public static function getRelations(): array
+    // {
+    //     return [
+    //         // SolderingDetailRelationManager::class,
             
-        ];
-    }
+    //     ];
+    // }
 
     public static function getPages(): array
     {

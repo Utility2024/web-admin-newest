@@ -20,6 +20,8 @@ use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Orion\FilamentFeedback\FeedbackPlugin;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use TomatoPHP\FilamentLogger\FilamentLoggerPlugin;
+use Vormkracht10\TwoFactorAuth\TwoFactorAuthPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -29,7 +31,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Vormkracht10\TwoFactorAuth\TwoFactorAuthPlugin;
 use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticationPlugin;
 
 class MainMenuPanelProvider extends PanelProvider
@@ -56,6 +57,7 @@ class MainMenuPanelProvider extends PanelProvider
             ])
             ->plugin(
                 \Hasnayeen\Themes\ThemesPlugin::make(),
+                FilamentLoggerPlugin::make()
             )
             ->plugins([
                 FilamentApexChartsPlugin::make(),

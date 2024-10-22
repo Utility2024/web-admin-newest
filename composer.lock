@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3196ac0e68afe9f831b71ac71ed7907d",
+    "content-hash": "662b87ebaff7fdc664f38e02e20fc291",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -11974,6 +11974,72 @@
                 }
             ],
             "time": "2024-07-21T15:41:17+00:00"
+        },
+        {
+            "name": "tomatophp/filament-logger",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomatophp/filament-logger.git",
+                "reference": "8bbeb4a6bf81290ac0ce88d226e9f66f357860d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomatophp/filament-logger/zipball/8bbeb4a6bf81290ac0ce88d226e9f66f357860d8",
+                "reference": "8bbeb4a6bf81290ac0ce88d226e9f66f357860d8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "filament/filament": "^3.2",
+                "illuminate/http": "^9.0|^10.0|^11.0",
+                "illuminate/support": "^9.0|^10.0|^11.0",
+                "monolog/monolog": "^2.9|^3.6",
+                "php": "^8.1|^8.2",
+                "tomatophp/console-helpers": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TomatoPHP\\FilamentLogger\\FilamentLoggerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TomatoPHP\\FilamentLogger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fady Mondy",
+                    "email": "info@3x1.io"
+                }
+            ],
+            "description": "Log all user activity to file or log driver and preview it on your FilamentPHP panel",
+            "keywords": [
+                "filament-plugin",
+                "filamentphp",
+                "laravel",
+                "logger",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/tomatophp/filament-logger/issues",
+                "source": "https://github.com/tomatophp/filament-logger/tree/v1.0.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/3x1io",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-10-06T12:55:07+00:00"
         },
         {
             "name": "tomatophp/filament-settings-hub",

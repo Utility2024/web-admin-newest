@@ -12,6 +12,11 @@ class EditSoldering extends EditRecord
 {
     protected static string $resource = SolderingResource::class;
 
+    public function getRelationManagers(): array
+    {
+        return [];
+    }
+
     protected function getHeaderActions(): array
     {
         return [

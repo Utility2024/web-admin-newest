@@ -5,11 +5,16 @@ namespace App\Filament\Ticket\Resources\TicketResource\Pages;
 use App\Filament\Ticket\Resources\TicketResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Facades\Auth;
+use App\Filament\Ticket\Resources\TicketResource\RelationManagers\FeedbackRelationManager;
 
 class EditTicket extends EditRecord
 {
     protected static string $resource = TicketResource::class;
+
+    public function getRelationManagers(): array
+    {
+        return [];
+    }
 
     protected function getHeaderActions(): array
     {
@@ -17,10 +22,5 @@ class EditTicket extends EditRecord
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
-    }
-
-    public static function getRelations(): array
-    {
-        return [];
     }
 }

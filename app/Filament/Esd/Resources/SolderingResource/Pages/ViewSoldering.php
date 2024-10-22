@@ -2,9 +2,10 @@
 
 namespace App\Filament\Esd\Resources\SolderingResource\Pages;
 
-use App\Filament\Esd\Resources\SolderingResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Esd\Resources\SolderingResource;
+use App\Filament\Esd\Resources\SolderingResource\RelationManagers\SolderingDetailRelationManager;
 
 class ViewSoldering extends ViewRecord
 {
@@ -14,6 +15,14 @@ class ViewSoldering extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+        ];
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            SolderingDetailRelationManager::class,
+            
         ];
     }
 }

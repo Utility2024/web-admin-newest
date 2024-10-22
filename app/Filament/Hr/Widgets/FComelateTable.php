@@ -9,6 +9,7 @@ use App\Models\ComelateCount;
 use Filament\Tables\Actions\ViewAction;
 use Illuminate\Support\Facades\Auth;
 use Filament\Widgets\TableWidget as BaseWidget;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class FComelateTable extends BaseWidget
 {
@@ -40,23 +41,20 @@ class FComelateTable extends BaseWidget
                 Tables\Columns\TextColumn::make('department')
                     ->label('Department')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Active' => 'success',
+                        'Tidak Active' => 'danger',
+                    })
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('count_comelate')
                     ->label('Comelate Count')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
-                    ->formatStateUsing(function (ComelateCount $record): string {
-                        // Temukan employee berdasarkan user_login
-                        $employee = Employee::where('user_login', $record->nik)->first();
-                
-                        // Kembalikan status berdasarkan apakah employee ditemukan atau tidak
-                        if ($employee) {
-                            return 'Active'; // Jika employee ditemukan
-                        }
-                
-                        return 'Tidak Active'; // Jika employee tidak ditemukan
-                    })
-                    ->default('Tidak Active'),
+            ])
+            ->groups([
+                'status',
             ])
             ->actions([
                 ViewAction::make()
@@ -71,6 +69,10 @@ class FComelateTable extends BaseWidget
 
                         return "Tidak Ada Data"; // Arahkan ke URL kosong jika data tidak ditemukan
                     }),
+            ])
+            ->bulkActions([
+                    ExportBulkAction::make()
+                        ->label('Export Excel'),
             ])
             ->defaultSort('count_comelate', 'desc');
     }

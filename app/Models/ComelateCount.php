@@ -21,6 +21,7 @@ class ComelateCount extends Model
         'nik',
         'name',
         'department',
+        'status',
         'count_comelate',
     ];
 }

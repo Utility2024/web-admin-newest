@@ -23,6 +23,7 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use App\Filament\Ticket\Resources\FeedbackResource;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Ticket\Resources\TicketResource\Pages;
 use Filament\Infolists\Components\Card as InfolistCard;
@@ -56,17 +57,18 @@ class TicketResource extends Resource
 
                         Forms\Components\TextInput::make('title')
                             ->required(),
-                        
+                    ])->columns(2),
+                Card::make()
+                    ->schema([        
                         Forms\Components\Textarea::make('description')
                             ->required(),
-                    ])->columns(2),
+                    ]),
                 Card::make()
                     ->schema([       
                         FileUpload::make('file')
                             ->label('Photo')
                             ->disk('public')
                             ->multiple(),
-                    ])->columns(2),
                 Card::make()
                     ->schema([
                         ToggleButtons::make('priority')
@@ -108,7 +110,8 @@ class TicketResource extends Resource
                                 return $filteredRoles;
                             })
                             ->required(),                       
-                    ]),                
+                    ])->columns(3),
+                ])        
             ]);
     }
 
@@ -195,11 +198,17 @@ class TicketResource extends Resource
             ->recordTitleAttribute('ticket_number')
             ->columns([
                 Tables\Columns\TextColumn::make('ticket_number')
+                    // ->wrap()
                     ->sortable()
                     ->label('Ticket Number'),
+                // Tables\Columns\TextColumn::make('id')
+                //     ->wrap()
+                //     ->sortable()
+                //     ->label('No'),
                 
                 Tables\Columns\TextColumn::make('title')
                     ->sortable()
+                    ->wrap()
                     ->label('Title'),
                 
                 Tables\Columns\TextColumn::make('status')
@@ -211,28 +220,20 @@ class TicketResource extends Resource
                         'Closed' => 'success',
                     })
                     ->label('Status'),
-                
-                Tables\Columns\TextColumn::make('priority')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Low' => 'gray',
-                        'Medium' => 'warning',
-                        'Urgent' => 'danger',
-                        'Critical' => 'primary'
-                    })
-                    ->label('Priority'),
-                
-                Tables\Columns\TextColumn::make('category.name')
-                    ->label('Category'),
 
                 ImageColumn::make('file')
                     ->label('Photo')
                     ->disk('public')
-                    ->size(100),
+                    ->circular()
+                    ->stacked()
+                    ->limit(3)
+                    ->limitedRemainingText()
+                    ->size(50),
                     
 
                 Tables\Columns\TextColumn::make('assigned_role')
                     ->label('Assigned To Section')
+                    ->wrap()
                     ->formatStateUsing(function ($state) {
                         $roleMapping = [
                             'ADMINESD' => 'ESD (Electrostatic Discharge)',
@@ -245,6 +246,7 @@ class TicketResource extends Resource
                     }),
                 
                 Tables\Columns\TextColumn::make('creator.name')
+                    ->wrap()
                     ->label('Requester')
                     ->sortable()
                     ->searchable(),
@@ -255,7 +257,9 @@ class TicketResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 
                 Tables\Columns\TextColumn::make('approval')
+                    ->wrap()
                     ->label('Approval Manager Admin')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Approved' => 'success',
@@ -268,6 +272,8 @@ class TicketResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('approval_user')
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Approval User')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -289,6 +295,7 @@ class TicketResource extends Resource
                     ->label('Updated At')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('ticket_number', 'desc')
             ->filters([
                 SelectFilter::make('status')
                     ->options([
@@ -300,6 +307,7 @@ class TicketResource extends Resource
             ])
             ->actions([
                 Action::make('approve_user')
+                    ->button()
                     ->label('Approval User')
                     ->form([
                         Forms\Components\ToggleButtons::make('approval_status')
@@ -338,6 +346,7 @@ class TicketResource extends Resource
                     ->hidden(fn (Ticket $record) => $record->approval_user === 'Approved'), // Sembunyikan jika sudah Approved
 
                 Action::make('approve')
+                    ->button()
                     ->label('Approval')
                     ->form([
                         Forms\Components\ToggleButtons::make('approval_status')
@@ -373,9 +382,16 @@ class TicketResource extends Resource
                     ),
             
                 // View and Edit actions
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])            
+                Tables\Actions\ViewAction::make()
+                    ->button(),
+                Tables\Actions\EditAction::make()
+                    ->button()
+            ])
+
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
+                   
             ->bulkActions([
                 // Tables\Actions\BulkAction::make('approve')
                 //     ->label('Approve Selected')
@@ -385,20 +401,20 @@ class TicketResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\FeedbackRelationManager::class,
-        ];
-    }
+    // public static function getRelations(): array
+    // {
+    //     return [
+    //         RelationManagers\FeedbackRelationManager::class,
+    //     ];
+    // }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListTickets::route('/'),
-            'create' => Pages\CreateTicket::route('/create'),
+            // 'create' => Pages\CreateTicket::route('/create'),
             'view' => Pages\ViewTicket::route('/{record}'),
-            'edit' => Pages\EditTicket::route('/{record}/edit'),
+            // 'edit' => Pages\EditTicket::route('/{record}/edit'),
         ];
     }
 }
