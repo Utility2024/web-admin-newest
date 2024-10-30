@@ -17,6 +17,7 @@ class Feedback extends Model
         'status',
         'comments',
         'photo',
+        'email_user',
     ];
 
     protected $casts = [

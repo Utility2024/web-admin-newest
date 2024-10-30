@@ -797,7 +797,7 @@
                                 <tr>
                                     <th>( C1 )</th>
                                     <th>:</th>
-                                    <td>Measure Charge Decay Time (-), From 1.000V To 100V < 8.0 Sec.</td>
+                                    <td>Measure Charge Decay Time (+), From 1.000V To 100V < 8.0 Sec.</td>
                                 </tr>
                                 <tr>
                                     <th>( C2 )</th>

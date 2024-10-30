@@ -18,6 +18,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\Navigation\NavigationItem;
 
 class IotPanelProvider extends PanelProvider
 {
@@ -37,6 +38,12 @@ class IotPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Iot/Pages'), for: 'App\\Filament\\Iot\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make('Main Menu')
+                    ->url('/mainMenu')
+                    ->icon('heroicon-o-arrow-left-start-on-rectangle')
+                    ->sort(2),
             ])
             ->discoverWidgets(in: app_path('Filament/Iot/Widgets'), for: 'App\\Filament\\Iot\\Widgets')
             ->widgets([

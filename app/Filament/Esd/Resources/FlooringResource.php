@@ -83,16 +83,16 @@ class FlooringResource extends Resource
                     }),
                 TextColumn::make('judgement_counts')
                     ->label('OK / NG Count')
-                    ->badge()
-                    ->getStateUsing(function ($record) {
-                        $counts = $record->judgement_counts;
-                        return "OK: {$counts['ok']} | NG: {$counts['ng']}";
-                    })
-                    ->formatStateUsing(function ($state, $record) {
-                        $counts = $record->judgement_counts;
-                        return "<span style='color: green;'>OK: {$counts['ok']}</span> | <span style='color: red;'>NG: {$counts['ng']}</span>";
-                    })
-                    ->html(),
+                    ->badge(),
+                    // ->getStateUsing(function ($record) {
+                    //     $counts = $record->judgement_counts;
+                    //     return "OK: {$counts['OK']} | NG: {$counts['NG']}";
+                    // })
+                    // ->formatStateUsing(function ($state, $record) {
+                    //     $counts = $record->judgement_counts;
+                    //     return "<span style='color: green;'>OK: {$counts['OK']}</span> | <span style='color: red;'>NG: {$counts['NG']}</span>";
+                    // })
+                    // ->html(),
                 TextColumn::make('creator.name')
                     ->label('Created By')
                     ->sortable()

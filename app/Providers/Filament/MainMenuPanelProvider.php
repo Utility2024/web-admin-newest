@@ -9,7 +9,6 @@ use Filament\PanelProvider;
 use Filament\Actions\Action;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
 use Orion\FilamentBackup\BackupPlugin;
 use Filament\Navigation\NavigationItem;
@@ -32,6 +31,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticationPlugin;
+use Carbon\Carbon;
 
 class MainMenuPanelProvider extends PanelProvider
 {
@@ -46,12 +46,6 @@ class MainMenuPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->brandName('Admin Portal')
             ->profile(EditProfile::class)
-            // ->navigationItems([
-            //     NavigationItem::make('Security')
-            //         ->url('http://portal.siix-ems.co.id/mainMenu/my-profile')
-            //         ->icon('heroicon-o-lock-closed')
-            // ])
-            // ->topNavigation()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -61,11 +55,8 @@ class MainMenuPanelProvider extends PanelProvider
             )
             ->plugins([
                 FilamentApexChartsPlugin::make(),
-                // TwoFactorAuthenticationPlugin::make()
-                //     ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
-                //     ->enforceTwoFactorSetup(),
                 GreeterPlugin::make()
-                    ->message('Welcome Back')
+                    ->message('Welcome Back, ' . Carbon::now('Asia/Jakarta')->format('d M Y, H:i'))
                     ->action(
                         Action::make('manage_profile')
                             ->label('Manage My Profile')

@@ -13,11 +13,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TrayStock extends Model
 {
-    use SoftDeletes;
-    use HasFactory;
+    use SoftDeletes, HasFactory;
 
     protected $table = 'tray_stocks';
-
     protected $connection = 'mysql_wh';
 
     protected $fillable = [
@@ -25,10 +23,13 @@ class TrayStock extends Model
         'material',
         'plant',
         'material_description',
-        'master_racks_id',
         'qty_in',
         'qty_out',
-        'qty',
+        'qty'
+    ];
+
+    protected $casts = [
+        'master_racks_id' => 'array',
     ];
 
     // Accessor for total quantity
@@ -37,31 +38,13 @@ class TrayStock extends Model
         return $this->qty_in - $this->qty_out;
     }
 
-    // Method to calculate qty_in and qty_out before saving
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->qty_in = $model->trayIns()->sum('qty');
-            $model->qty_out = $model->trayOuts()->sum('qty');
-            $model->qty = $model->qty_in - $model->qty_out; // Calculate qty
-            $model->created_by = Auth::id();
-        });
-
-        static::updating(function ($model) {
-            $model->qty_in = $model->trayIns()->sum('qty');
-            $model->qty_out = $model->trayOuts()->sum('qty');
-            $model->qty = $model->qty_in - $model->qty_out; // Calculate qty
-            $model->updated_by = Auth::id();
-        });
-    }
-
+    // Many-to-many relationship with MasterRack
     public function masterRacks()
     {
         return $this->belongsTo(MasterRack::class, 'master_racks_id');
-    }   
+    }
 
+    // Relations to TrayIn and TrayOut
     public function trayIns()
     {
         return $this->hasMany(TrayIn::class);
@@ -80,5 +63,25 @@ class TrayStock extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+    
+    // Boot method to set qty_in, qty_out and created_by or updated_by
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->qty_in = $model->trayIns()->sum('qty');
+            $model->qty_out = $model->trayOuts()->sum('qty');
+            $model->qty = $model->qty_in - $model->qty_out;
+            $model->created_by = Auth::id();
+        });
+
+        static::updating(function ($model) {
+            $model->qty_in = $model->trayIns()->sum('qty');
+            $model->qty_out = $model->trayOuts()->sum('qty');
+            $model->qty = $model->qty_in - $model->qty_out;
+            $model->updated_by = Auth::id();
+        });
     }
 }

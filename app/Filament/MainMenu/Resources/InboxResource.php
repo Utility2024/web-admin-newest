@@ -74,7 +74,7 @@ class InboxResource extends Resource
                 Tables\Columns\TextColumn::make('message')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('approval')
-                    ->label('Approval HOD Admin')
+                    ->label('Approval Manager')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Pending' => 'warning',
@@ -87,17 +87,17 @@ class InboxResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                ->url(fn (Inbox $record) => $record->transaction_type === 'pengajuan_fasilitas'
-                    ? "http://portal.siix-ems.co.id/form/pengajuan-fasilitas/{$record->transaction_id}"
-                    : ($record->transaction_type === 'comelate_employee'
-                        ? "http://portal.siix-ems.co.id/form/comelate-employees/{$record->transaction_id}"
-                        : route('filament.resources.inboxes.view', $record))
-                )
+                ->url(fn (Inbox $record) => match ($record->transaction_type) {
+                    'pengajuan_fasilitas' => "http://portal.siix-ems.co.id/form/pengajuan-fasilitas/{$record->transaction_id}",
+                    'comelate_employee' => "http://portal.siix-ems.co.id/form/comelate-employees/{$record->transaction_id}",
+                    'ticket_created' => "http://portal.siix-ems.co.id/ticket/tickets/{$record->transaction_id}",
+                })
             
             ])
             ->bulkActions([

@@ -63,22 +63,22 @@ class ATicketingWidgets extends BaseWidget
 
         // Add stats for Admin roles
         if ($isAdminHr || $isAdminGa || $isAdminUtility || $isAdminEsd) {
-            $stats[] = Stat::make('Open Tickets', $this->getCountByCreatedByAndRoleAndStatus('Open', $userId, $userRole))
+            $stats[] = Stat::make('Open Tickets', $this->getCountByCreatedByAndRoleAndStatus('Open', $userRole))
                 ->description('More Info')
                 ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=Open')
                 ->color('warning');
 
-            $stats[] = Stat::make('In Progress Tickets', $this->getCountByCreatedByAndRoleAndStatus('In Progress', $userId, $userRole))
+            $stats[] = Stat::make('In Progress Tickets', $this->getCountByCreatedByAndRoleAndStatus('In Progress', $userRole))
                 ->description('More Info')
                 ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=In+Progress')
                 ->color('info');
 
-            $stats[] = Stat::make('Pending Tickets', $this->getCountByCreatedByAndRoleAndStatus('Pending', $userId, $userRole))
+            $stats[] = Stat::make('Pending Tickets', $this->getCountByCreatedByAndRoleAndStatus('Pending', $userRole))
                 ->description('More Info')
                 ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=Pending')
                 ->color('secondary');
 
-            $stats[] = Stat::make('Closed Tickets', $this->getCountByCreatedByAndRoleAndStatus('Closed', $userId, $userRole))
+            $stats[] = Stat::make('Closed Tickets', $this->getCountByCreatedByAndRoleAndStatus('Closed', $userRole))
                 ->description('More Info')
                 ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=Closed')
                 ->color('danger');
@@ -117,10 +117,9 @@ class ATicketingWidgets extends BaseWidget
             ->count(); // Return count of tickets created by the user with the given status
     }
 
-    private function getCountByCreatedByAndRoleAndStatus(string $status, int $userId, string $role): int
+    private function getCountByCreatedByAndRoleAndStatus(string $status, string $role): int
     {
         return Ticket::where('status', $status)
-            ->where('created_by', $userId)
             ->where('assigned_role', $role)
             ->count(); // Return count of tickets created by the user with the given role and status
     }

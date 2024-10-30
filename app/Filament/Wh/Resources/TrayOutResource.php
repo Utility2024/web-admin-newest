@@ -135,6 +135,9 @@ class TrayOutResource extends Resource
                 Tables\Columns\TextColumn::make('traystock.plant_buffer')
                     ->label('Plant Buffer')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('traystock.material')
+                    ->label('Material')
+                    ->default(fn ($record) => $record->traystock->material ?? null),
                 Tables\Columns\TextColumn::make('masterracks.locator_number')
                     ->label('Locator Number')
                     ->searchable(),

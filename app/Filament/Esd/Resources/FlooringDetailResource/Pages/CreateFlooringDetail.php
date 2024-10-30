@@ -7,6 +7,8 @@ use Filament\Notifications\Notification;
 use Filament\Notifications\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Esd\Resources\FlooringDetailResource;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\FlooringCreated;
 
 class CreateFlooringDetail extends CreateRecord
 {
@@ -23,18 +25,20 @@ class CreateFlooringDetail extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $flooringdetail = $this->record;
-        $registerNo = $flooringdetail->flooring->register_no;
-
+        $flooring = $this->record;
+    
+        // Create and send the notification email
+        Mail::to('widifajarsatritama@gmail.com')->send(new FlooringCreated($flooring));
+    
         Notification::make()
             ->success()
-            ->title('Flooring Meaurement')
-            ->body("The Flooring Meaurement for register no {$registerNo} has been created successfully.")
+            ->title('Master Flooring')
+            ->body("The Flooring for register no {$flooring->register_no} has been created successfully.")
             ->actions([
                 Action::make('view')
                     ->button()
-                    ->url(FlooringDetailResource::getUrl('view', ['record' => $flooringdetail])),
+                    ->url(FlooringDetailResource::getUrl('view', ['record' => $flooring])),
             ])
-            ->sendToDatabase(\auth()->user()); 
+            ->sendToDatabase(\auth()->user());
     }
 }

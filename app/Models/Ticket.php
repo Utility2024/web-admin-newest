@@ -29,7 +29,8 @@ class Ticket extends Model
         'approval_user_at',
         'comment_manager',
         'comments_user',
-        'name'
+        'name',
+        'email_user'
     ];
 
     protected $dates = [

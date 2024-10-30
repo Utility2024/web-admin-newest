@@ -52,6 +52,7 @@ class LatestMyTicketing extends BaseWidget
 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
+                    ->wrap()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
@@ -65,32 +66,9 @@ class LatestMyTicketing extends BaseWidget
                         'Closed' => 'success',
                     }),
 
-                Tables\Columns\TextColumn::make('priority')
-                    ->label('Priority')
-                    ->sortable()
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Low' => 'info',
-                        'Medium' => 'warning',
-                        'Urgent' => 'danger',
-                        'Critical' => 'primary'
-                    }),
-
-                Tables\Columns\TextColumn::make('assigned_role')
-                    ->label('Assigned To Section')
-                    ->formatStateUsing(function ($state) {
-                        $roleMapping = [
-                            'ADMINESD' => 'ESD (Electrostatic Discharge)',
-                            'ADMINUTILITY' => 'Facility & Utility',
-                            'ADMINHR' => 'HR (Human Resource)',
-                            'ADMINGA' => 'GA (General Affair)',
-                        ];
-                        return $roleMapping[$state] ?? $state;
-                    }),
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
-                    ->dateTime()
+                    ->date()
                     ->sortable(),
             ])
             ->headerActions([

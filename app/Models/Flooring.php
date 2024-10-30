@@ -23,16 +23,16 @@ class Flooring extends Model
         return $this->hasMany(FlooringDetail::class);
     }
 
-    public function getJudgementCountsAttribute()
-    {
-        $okCount = FlooringDetail::where('flooring_id', $this->id)->where('judgement', 'OK')->count();
-        $ngCount = FlooringDetail::where('flooring_id', $this->id)->where('judgement', 'NG')->count();
+    // public function getJudgementCountsAttribute()
+    // {
+    //     $okCount = FlooringDetail::where('flooring_id', $this->id)->where('judgement', 'OK')->count();
+    //     $ngCount = FlooringDetail::where('flooring_id', $this->id)->where('judgement', 'NG')->count();
 
-        return [
-            'ok' => $okCount,
-            'ng' => $ngCount
-        ];
-    }
+    //     return [
+    //         'ok' => $okCount,
+    //         'ng' => $ngCount
+    //     ];
+    // }
 
     public function creator()
     {

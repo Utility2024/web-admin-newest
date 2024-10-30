@@ -5,6 +5,7 @@ namespace App\Filament\Ticket\Widgets;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Select;
 
 class BSummaryTicketing extends ApexChartWidget
 {
@@ -25,32 +26,33 @@ class BSummaryTicketing extends ApexChartWidget
             'Critical' => '#007bff',  // Blue
         ];
 
-        // Initialize arrays for ticket counts and colors per priority per month
         $monthlyTicketCounts = [];
-        $monthlyColors = [];
-
         foreach ($priorityColors as $priority => $color) {
             $monthlyTicketCounts[$priority] = array_fill(0, 12, 0);
-            $monthlyColors[$priority] = array_fill(0, 12, $color);
         }
+
+        // Get selected year and month from the form state
+        $year = $this->form->getState()['year'] ?? now()->year;
 
         // Query to get ticket count and priorities per month based on role
         if ($userRole === 'USER') {
             $tickets = Ticket::where('created_by', $userId)
+                ->whereYear('created_at', $year)
                 ->selectRaw('MONTH(created_at) as month, COUNT(*) as count, priority')
                 ->groupBy('month', 'priority')
                 ->get();
-        } elseif ($userRole === 'MANAGERADMIN' || $userRole === 'SUPERADMIN') {
-            $tickets = Ticket::selectRaw('MONTH(created_at) as month, COUNT(*) as count, priority')
+        } elseif (in_array($userRole, ['MANAGERADMIN', 'SUPERADMIN'])) {
+            $tickets = Ticket::whereYear('created_at', $year)
+                ->selectRaw('MONTH(created_at) as month, COUNT(*) as count, priority')
                 ->groupBy('month', 'priority')
                 ->get();
         } elseif (in_array($userRole, ['ADMINHR', 'ADMINESD', 'ADMINUTILITY', 'ADMINGA'])) {
             $tickets = Ticket::where('assigned_role', $userRole)
+                ->whereYear('created_at', $year)
                 ->selectRaw('MONTH(created_at) as month, COUNT(*) as count, priority')
                 ->groupBy('month', 'priority')
                 ->get();
         } else {
-            // Default to no data if the role is not recognized
             $tickets = collect();
         }
 
@@ -63,7 +65,7 @@ class BSummaryTicketing extends ApexChartWidget
             'chart' => [
                 'type' => 'bar',
                 'height' => 300,
-                'stacked' => true, // Stack bars for each priority
+                'stacked' => true,
             ],
             'series' => array_map(function ($priority) use ($monthlyTicketCounts) {
                 return [
@@ -73,20 +75,23 @@ class BSummaryTicketing extends ApexChartWidget
             }, array_keys($priorityColors)),
             'xaxis' => [
                 'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                'labels' => [
-                    'style' => [
-                        'fontFamily' => 'inherit',
-                    ],
-                ],
+                'labels' => ['style' => ['fontFamily' => 'inherit']],
             ],
             'yaxis' => [
-                'labels' => [
-                    'style' => [
-                        'fontFamily' => 'inherit',
-                    ],
-                ],
+                'labels' => ['style' => ['fontFamily' => 'inherit']],
             ],
             'colors' => array_values($priorityColors),
+        ];
+    }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            Select::make('year')
+                ->options(array_combine(range(now()->year - 5, now()->year), range(now()->year - 5, now()->year)))
+                ->default(now()->year)
+                ->reactive(),
+
         ];
     }
 }

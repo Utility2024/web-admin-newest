@@ -11,6 +11,9 @@ use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\RelationManagers\RelationManager;
+use Illuminate\Support\Facades\Mail; // Don't forget to import Mail
+use App\Mail\FeedbackCreated;
+use Filament\Notifications\Notification; // Import the FeedbackCreated Mailable
 
 class FeedbackRelationManager extends RelationManager
 {
@@ -23,7 +26,6 @@ class FeedbackRelationManager extends RelationManager
         $ticketId = session('ticket_id');
         $user = Auth::user();
 
-        // Menyembunyikan atau menonaktifkan beberapa komponen jika pengguna adalah isUser
         return $form
             ->schema([
                 Card::make()
@@ -40,6 +42,30 @@ class FeedbackRelationManager extends RelationManager
                                 $ticket = \App\Models\Ticket::find($state);
                                 if ($ticket) {
                                     $set('status', $ticket->status);
+                                }
+                            }),
+                        
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('user', 'name')
+                            ->required()
+                            ->searchable()
+                            ->label('Name')
+                            ->default(Auth::id())
+                            ->extraAttributes(['style' => 'pointer-events: none;'])
+                            ->hidden($user->isUser()),
+
+                        Forms\Components\Select::make('email_user')
+                            ->relationship('ticket', 'email_user')
+                            ->required()
+                            ->searchable()
+                            ->label('Email User')
+                            ->reactive()
+                            ->default($ticketId)
+                            ->extraAttributes(['style' => 'pointer-events: none;'])
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                $ticket = \App\Models\Ticket::find($state);
+                                if ($ticket) {
+                                    $set('email_user', $ticket->email_user);
                                 }
                             }),
                         
@@ -69,15 +95,6 @@ class FeedbackRelationManager extends RelationManager
                                 }
                             }),
                         
-                        Forms\Components\Select::make('user_id')
-                            ->relationship('user', 'name')
-                            ->required()
-                            ->searchable()
-                            ->label('Name')
-                            ->default(Auth::id())
-                            ->extraAttributes(['style' => 'pointer-events: none;'])
-                            ->hidden($user->isUser()),  // Sembunyikan jika pengguna adalah isUser
-                        
                         Forms\Components\Textarea::make('comments')
                             ->required()
                             ->maxLength(65535)
@@ -98,11 +115,8 @@ class FeedbackRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('comments')
             ->columns([
-                Tables\Columns\TextColumn::make('comments')
-                    ->label('Comments'),
-
+                Tables\Columns\TextColumn::make('comments')->label('Comments'),
                 Tables\Columns\TextColumn::make('user.name'),
-                
                 Tables\Columns\TextColumn::make('status')
                     ->sortable()
                     ->badge()
@@ -117,13 +131,11 @@ class FeedbackRelationManager extends RelationManager
                     ->label('Photo')
                     ->size(100)
                     ->disk('public'),
-                
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Created At'),
-
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -131,9 +143,9 @@ class FeedbackRelationManager extends RelationManager
                     ->label('Updated At'),
             ])
             ->filters([
-                // Tambahkan filter jika diperlukan
+                // Add filters if needed
             ])
-            ->headerActions([
+            ->headerActions($user->isUser() ? [] : [
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions($user->isUser() ? [] : [
@@ -150,5 +162,33 @@ class FeedbackRelationManager extends RelationManager
     public function isReadOnly(): bool
     {
         return false;
+    }
+
+    protected function getCreatedNotification(): ?Notification
+    {
+        return 
+            Notification::make()
+                ->success()
+                ->title('Feedback Created')
+                ->body('The Feedback Ticket has been created successfully.');
+    }
+
+    protected function afterCreate(): void
+    {
+        $feedback = $this->record; // Get the created feedback
+
+        // Send the feedback notification email to the user
+        if ($feedback->email_user) {
+            Mail::to($feedback->email_user)->send(new FeedbackCreated($feedback));
+        }
+
+        // Send the feedback email to the specific address
+        Mail::to('widifajarsatritama@gmail.com')->send(new FeedbackCreated($feedback));
+
+        Notification::make()
+            ->success()
+            ->title('Feedback Created')
+            ->body("Your feedback has been created successfully.")
+            ->sendToDatabase(\auth()->user());
     }
 }

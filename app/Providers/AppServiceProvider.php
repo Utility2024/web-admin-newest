@@ -5,7 +5,6 @@ namespace App\Providers;
 use Filament\Panel;
 use App\Models\User;
 use Filament\Facades\Filament;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Gate;

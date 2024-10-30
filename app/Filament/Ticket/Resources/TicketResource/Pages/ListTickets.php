@@ -9,10 +9,19 @@ use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Ticket\Resources\TicketResource\RelationManagers\FeedbackRelationManager;
+use App\Filament\Ticket\Resources\TicketResource\BCWarningTicket;
 
 class ListTickets extends ListRecords
 {
     protected static string $resource = TicketResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            BCWarningTicket::class,
+        ];
+    }
 
     protected function getHeaderActions(): array
     {

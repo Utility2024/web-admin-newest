@@ -13,21 +13,18 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Wh\Resources\TrayStockResource\Pages;
 use Filament\Infolists\Components\Card as InfolistCard;
-use App\Filament\Wh\Resources\TrayStockResource\RelationManagers;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Wh\Resources\TrayStockResource\RelationManagers\TrayInRelationManager;
 use App\Filament\Wh\Resources\TrayStockResource\RelationManagers\TrayOutRelationManager;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class TrayStockResource extends Resource
 {
     protected static ?string $model = TrayStock::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
-
     protected static ?string $navigationGroup = 'Data Master';
 
     public static function form(Form $form): Form
@@ -36,19 +33,19 @@ class TrayStockResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        Forms\Components\TextInput::make('plant_buffer')
+                        TextInput::make('plant_buffer')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('material')
+                        TextInput::make('material')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('plant')
+                        TextInput::make('plant')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('material_description')
+                        TextInput::make('material_description')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('qty')
+                        TextInput::make('qty')
                             ->required()
                             ->numeric(),
                         Select::make('master_racks_id')
@@ -68,6 +65,8 @@ class TrayStockResource extends Resource
                     TextEntry::make('material'),
                     TextEntry::make('plant'),
                     TextEntry::make('material_description'),
+                    TextEntry::make('masterracks.locator_number')
+                        ->label('Locator'),
                     TextEntry::make('qty'),
                 ])->columns(2),
             ]);
@@ -110,21 +109,18 @@ class TrayStockResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-            ])
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label('History Transaction')
                     ->button(),
                 Tables\Actions\EditAction::make()
                     ->button(),
-                    Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make()
                     ->button()
                     ->before(function ($record, array $data) {
                         if (empty($data['reason_to_delete'])) {
                             throw new \Exception('Reason to delete is required.');
                         }
-
                         $record->reason_to_delete = $data['reason_to_delete'];
                         $record->save();
                     })
@@ -135,29 +131,19 @@ class TrayStockResource extends Resource
                             ->required(),
                     ]),
                 Tables\Actions\ForceDeleteAction::make()
-                        ->hidden(function () {
-                            return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN
-                        }),
+                        ->hidden(fn () => !auth()->user()->isSuperAdmin()),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                     ExportBulkAction::make()
                         ->label('Export Excel')
-                        ->hidden(function () {
-                            return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh() && !auth()->user()->isAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
-                        }),
+                        ->hidden(fn () => !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh() && !auth()->user()->isAdminWh()),
                     Tables\Actions\DeleteBulkAction::make()
-                        ->hidden(function () {
-                            return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
-                        }),
+                        ->hidden(fn () => !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh()),
                     Tables\Actions\ForceDeleteBulkAction::make()
-                        ->hidden(function () {
-                            return !auth()->user()->isSuperAdmin(); // Sembunyikan jika pengguna bukan SUPERADMIN
-                        }),
+                        ->hidden(fn () => !auth()->user()->isSuperAdmin()),
                     Tables\Actions\RestoreBulkAction::make()
-                        ->hidden(function () {
-                            return !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh(); // Sembunyikan jika pengguna bukan SUPERADMIN
-                        }),
+                        ->hidden(fn () => !auth()->user()->isSuperAdmin() && !auth()->user()->isSuperAdminWh()),
             ]);
     }
 
@@ -173,7 +159,6 @@ class TrayStockResource extends Resource
     {
         return [
             'index' => Pages\ListTrayStocks::route('/'),
-            // 'create' => Pages\CreateTrayStock::route('/create'),
             'view' => Pages\ViewTrayStock::route('/{record}'),
             'edit' => Pages\EditTrayStock::route('/{record}/edit'),
         ];

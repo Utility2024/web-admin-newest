@@ -8,6 +8,12 @@ use App\Http\Controllers\WorksurfaceController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Esp32Controller;
+use App\Http\Controllers\LedController;
+use App\Filament\Iot\Pages\LedPage;
+use App\Mail\TicketCreated;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +51,19 @@ Route::post('reset-password', [PasswordResetController::class, 'reset'])
 
 Route::get('/worksurface-pdf', [WorksurfaceController::class, 'generatePdf']);
 
-// routes/web.php
-Route::post('/toggle-lamp', [LampController::class, 'toggleLamp']);
-Route::get('/lamps', [LampController::class, 'index'])->name('lamps.index');
+Route::get('/send-test-email', function () {
+    // Fetch the last created ticket
+    $ticket = Ticket::latest()->first();
+
+    // Check if a ticket exists
+    if ($ticket) {
+        // Send the email
+        Mail::to('widifajarsatritama@gmail.com')->send(new TicketCreated($ticket));
+        return 'Email sent successfully!';
+    }
+
+    return 'No tickets found to send.';
+});
 
     
 
