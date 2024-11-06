@@ -1,49 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP32 Control</title>
+    <title>SIIX CONTROL UTILITY</title>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        const pusher = new Pusher('d67bd18a316b308e7320', {
+            cluster: 'ap1',
+            useTLS: true
+        });
+
+        const channel = pusher.subscribe('led-channel');
+        channel.bind('led-updated', function(data) {
+            const relayId = `relay${data.relay_number}`;
+            const relayCheckbox = document.getElementById(relayId);
+            if (relayCheckbox) {
+                relayCheckbox.checked = data.status == 1;
+            } else {
+                console.warn(`Checkbox dengan ID ${relayId} tidak ditemukan.`);
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css">
+    <style>
+        html {
+            font-family: Arial;
+            display: inline-block;
+            text-align: center;
+        }
+        /* Tambahkan gaya CSS Anda di sini, seperti pada kode asli */
+        body {
+            margin: 0;
+        }
+        /* Tambahkan gaya tambahan... */
+    </style>
 </head>
 <body>
-    <h1>ESP32 Control Panel</h1>
-    <div id="status"></div>
-    <button onclick="getData()">Get LED Status</button>
-    <button onclick="updateData()">Update Data</button>
+    <div class="topnav">
+        <h3>SIIX CONTROL UTILITY</h3>
+    </div>
+    <br>
+    <div class="content">
+        <div class="cards">
+            <div class="card">
+                <div class="card header">
+                    <h3 style="font-size: 1rem;">PENGENDALIAN LAMPU</h3>
+                </div>
 
+                @foreach(range(1, 4) as $i)
+                    <h4 class="LEDColor"><i class="fas fa-lightbulb"></i> LED {{ $i }}</h4>
+                    <label class="switch">
+                        <input type="checkbox" id="relay{{ $i }}" onclick="GetTogBtnLEDState('relay{{ $i }}')" {{ isset($statusRelay[$i]) && $statusRelay[$i] == 1 ? 'checked' : '' }}>
+                        <div class="sliderTS"></div>
+                    </label>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <br>
     <script>
-        async function getData() {
-            const response = await fetch('/api/getdata', {
+        function GetTogBtnLEDState(relayId) {
+            const relayCheckbox = document.getElementById(relayId);
+            const relayNumber = relayId.replace('relay', '');
+            const status = relayCheckbox.checked ? 1 : 0;
+
+            fetch('update_relay.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: JSON.stringify({ id: 'esp32_01' })
-            });
-            const data = await response.json();
-            document.getElementById('status').innerText = JSON.stringify(data);
+                body: `relay_number=${relayNumber}&status=${status}`
+            })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error('Terjadi kesalahan:', error));
         }
 
-        async function updateData() {
-            const response = await fetch('/api/updateDHT11data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: 'esp32_01',
-                    temperature: 23.5,
-                    humidity: 45,
-                    status_read_sensor_dht11: 'SUCCEED',
-                    led_01: 'ON',
-                    led_02: 'OFF',
-                    led_03: 'ON',
-                    led_04: 'OFF'
-                })
-            });
-            const result = await response.json();
-            console.log(result);
-        }
+        // Fungsi untuk kontrol relay berdasarkan waktu
+        // Anda dapat menambahkan logika kontrol waktu di sini
     </script>
 </body>
 </html>

@@ -27,6 +27,7 @@
         "oriondevelops/filament-greeter": "^0.1.0",
         "parallax/filament-comments": "^1.3",
         "psr/simple-cache": "2.0",
+        "pusher/pusher-php-server": "^7.2",
         "pxlrbt/filament-excel": "^2.3",
         "stephenjude/filament-jetstream": "^0.0.13",
         "tapp/filament-auditing": "3.0",

@@ -14,6 +14,7 @@ use App\Filament\Iot\Pages\LedPage;
 use App\Mail\TicketCreated;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Api\RelayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,10 @@ Route::get('/send-test-email', function () {
     }
 
     return 'No tickets found to send.';
+});
+
+Route::get('/relay-control', function () {
+    return view('relay-control');
 });
 
     

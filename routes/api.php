@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\RelayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/getdata', [ApiController::class, 'getData']);
-Route::post('/updateDHT11data', [ApiController::class, 'updateData']);
+Route::get('/relays', [RelayController::class, 'getRelaysStatus']);
+Route::post('/relay/{relayNumber}', [RelayController::class, 'updateRelayStatus']);
+
+Route::post('/api/relay/update/{relayNumber}', [RelayController::class, 'updateRelayStatus']);
+Route::post('/relay/update/{relayNumber}', [RelayController::class, 'updateRelayStatus']);
+
