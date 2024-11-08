@@ -207,6 +207,7 @@ return [
         App\Providers\Filament\FormPanelProvider::class,
         App\Providers\Filament\IotPanelProvider::class,
         App\Providers\Filament\WhPanelProvider::class,
+        App\Providers\Filament\ProductionPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,

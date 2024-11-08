@@ -17,7 +17,7 @@
                         @csrf
                         <img src="{{ url('images/logo_siix.png') }}" alt="logo" width="70" height="auto" />
                         <div class="logo">
-                            <h4>PORTAL ADMIN. DEPT</h4>
+                            <h4>PORTAL WEB</h4>
                         </div>
 
                         <div class="heading">

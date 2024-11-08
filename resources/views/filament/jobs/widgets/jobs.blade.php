@@ -100,6 +100,21 @@
             </x-filament::card>
         @endif
 
+        @if ($user->isSuperAdmin() || $user->isAdminWip() || $user->isUserWip())
+            @php $totalJobs++; @endphp
+            <x-filament::card class="max-w-sm">
+                <a href="/production" class="flex flex-col items-center">
+                    <div class="relative mb-4">
+                        <img class="w-full h-32 object-cover aspect-square" src="{{ url('images/wip.png') }}" alt="Digital Control Tray WH" />
+                    </div>
+                    <div class="space-y-2 text-center">
+                        <h5 class="text-lg font-bold">WIP Transfer Project</h5>
+                        <p class="text-gray-600">Visit the WIP Transfer Project  For Production for more information.</p>
+                    </div>
+                </a>
+            </x-filament::card>
+        @endif
+
         @php
             // Simpan total jobs ke dalam sesi
             session(['total_jobs' => $totalJobs]);

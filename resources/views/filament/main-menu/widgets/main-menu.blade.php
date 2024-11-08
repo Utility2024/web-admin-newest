@@ -9,7 +9,7 @@
         @endphp
         
         <!-- Card 1: Human Resource -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh() || $user->isAdminWip() || $user->isUserWip())
             @php $totalJobs++; @endphp
             <a href="/jobs" class="flex flex-col items-center">
                 <x-filament::card class="h-full flex flex-col">
@@ -27,7 +27,7 @@
         @endif
 
         <!-- Card 2: Form Application -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isSecurity() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isSecurity() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh() || $user->isAdminWip() || $user->isUserWip())
             @php $totalJobs++; @endphp
             <a href="/form" class="flex flex-col items-center">
                 <x-filament::card class="h-full flex flex-col">
@@ -45,7 +45,7 @@
         @endif
 
         <!-- Card 3: Measurement Data ESD -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh() || $user->isAdminWip() || $user->isUserWip())
             @php $totalJobs++; @endphp
             <a href="https://portal.siix-ems.co.id/scanner" class="flex flex-col items-center">
                 <x-filament::card class="h-full flex flex-col">
@@ -63,7 +63,7 @@
         @endif
 
         <!-- Card 4: Ticketing Support -->
-        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh())
+        @if ($user->isAdminEsd() || $user->isSuperAdmin() || $user->isUser() || $user->isAdminHr() || $user->isAdminGa() || $user->isAdminUtility() || $user->isManagerAdmin() || $user->isSuperAdminWh() || $user->isAdminWh() || $user->isUserWh() || $user->isAdminWip() || $user->isUserWip())
             @php $totalJobs++; @endphp
             <a href="/ticket" class="flex flex-col items-center">
                 <x-filament::card class="h-full flex flex-col">

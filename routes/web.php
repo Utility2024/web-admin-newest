@@ -16,6 +16,8 @@ use App\Models\Ticket;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Api\RelayController;
 
+use App\Http\Controllers\MasterWipController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +71,8 @@ Route::get('/send-test-email', function () {
 Route::get('/relay-control', function () {
     return view('relay-control');
 });
+
+Route::post('/master-wip/{masterWip}/update-acceptance-status', [MasterWipController::class, 'updateAcceptanceStatus'])->name('master-wip.update-acceptance-status');
 
     
 

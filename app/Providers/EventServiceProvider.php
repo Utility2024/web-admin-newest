@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use App\Models\Garment;
 use App\Models\Ionizer;
 use App\Models\Flooring;
+use App\Models\MasterWip;
 use App\Models\Packaging;
 use App\Models\Soldering;
 use App\Models\Worksurface;
@@ -17,6 +18,7 @@ use App\Observers\TicketObserver;
 use App\Observers\FloringObserver;
 use App\Observers\GarmentObserver;
 use App\Observers\IonizerObserver;
+use App\Observers\MasterWipObserver;
 use App\Observers\PackagingObserver;
 use App\Observers\SolderingObserver;
 use Illuminate\Support\Facades\Event;
@@ -24,11 +26,11 @@ use App\Observers\WorksurfaceObserver;
 use Illuminate\Auth\Events\Registered;
 use App\Observers\EquipmentGroundObserver;
 use App\Observers\GroundMonitorBoxObserver;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Laravel\Fortify\Events\TwoFactorAuthenticationEnabled;
 use Laravel\Fortify\Events\TwoFactorAuthenticationChallenged;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Vormkracht10\TwoFactorAuth\Listeners\SendTwoFactorCodeListener;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -58,6 +60,7 @@ class EventServiceProvider extends ServiceProvider
         Soldering::observe(SolderingObserver::class);
         Worksurface::observe(WorksurfaceObserver::class);
         Ticket::observe(TicketObserver::class);
+        MasterWip::observe(MasterWipObserver::class);
     }
 
     /**
