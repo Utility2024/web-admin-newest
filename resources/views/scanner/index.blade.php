@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body">
             <!-- Camera Selection -->
-            <button class="btn btn-danger" type="button" onclick="window.location.href='http://portal.siix-ems.co.id/mainMenu';">Back To Main Menu</button>
+            <button class="btn btn-danger" type="button" onclick="window.location.href='/mainMenu';">Back To Main Menu</button>
             <hr>
             <div class="form-group">
                 <label for="cameraSelection">Pilih Kamera:</label>

@@ -57,7 +57,7 @@
         </p>
 
         <p>You can view the ticket directly by clicking the link below:</p>
-        <p><a href="http://portal.siix-ems.co.id/ticket/tickets/{{ $ticket->id }}">View Ticket</a></p>
+        <p><a href="/ticket/tickets/{{ $ticket->id }}">View Ticket</a></p>
 
         <p>Please check it for the approval process.</p>
 

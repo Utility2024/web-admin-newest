@@ -54,7 +54,7 @@
       <div class="misc-wrapper">
         <h1 class="mb-2 mx-2">403</h1>
         <p class="mb-6 mx-2">Ada Sesuatu yang Salah ( Something is Wrong)</p>
-        <a href="http://portal.siix-ems.co.id/mainMenu" class="btn btn-primary">Back to home</a>
+        <a href="/mainMenu" class="btn btn-primary">Back to home</a>
         <div class="mt-6">
           <img
             src="{{ url('images/403.png') }}"

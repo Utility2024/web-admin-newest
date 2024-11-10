@@ -23,7 +23,7 @@
                             badge-color="danger"
                             color="success"
                             tag="a" 
-                            href="http://portal.siix-ems.co.id/form/comelate-employees"
+                            href="/form/comelate-employees"
                         >
                             <x-slot name="badge">
                                 {{ $countJobs }} <!-- Badge berdasarkan jumlah dari created_by -->
@@ -32,7 +32,7 @@
                         </x-filament::button>
                         <x-filament::button 
                             tag="a" 
-                            href="http://portal.siix-ems.co.id/form/comelate-employees/create" 
+                            href="/form/comelate-employees/create" 
                             class="mt-4"
                         >
                             Create Form
@@ -56,7 +56,7 @@
                         badge-color="danger"
                         color="success"
                         tag="a" 
-                        href="http://portal.siix-ems.co.id/form/pengajuan-fasilitas"
+                        href="/form/pengajuan-fasilitas"
                     >
                         <x-slot name="badge">
                             {{ $countPengajuan }} <!-- Badge berdasarkan jumlah dari created_by -->
@@ -65,7 +65,7 @@
                     </x-filament::button>
                     <x-filament::button 
                         tag="a" 
-                        href="http://portal.siix-ems.co.id/form/pengajuan-fasilitas/create" 
+                        href="/form/pengajuan-fasilitas/create" 
                         class="mt-4"
                     >
                         Create Form

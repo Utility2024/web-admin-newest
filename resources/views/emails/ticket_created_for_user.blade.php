@@ -37,7 +37,7 @@
         <p><strong>Description :</strong> {{ $ticket->description }}</p>
 
         <p>You can view your ticket directly by clicking the link below:</p>
-        <p><a href="http://portal.siix-ems.co.id/ticket/tickets/{{ $ticket->id }}">View Ticket</a></p>
+        <p><a href="/ticket/tickets/{{ $ticket->id }}">View Ticket</a></p>
 
         <p>Thank you for reaching out!</p>
         <p>Best Regards,<br>Web Portal SIIX EMS Indonesia</p>

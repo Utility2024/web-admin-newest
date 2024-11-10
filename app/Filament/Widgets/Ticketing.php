@@ -18,7 +18,7 @@ class Ticketing extends BaseWidget
         $stats[] = Stat::make('Total Employee', $totalEmployee)
             ->icon('heroicon-o-user-group')
             ->description('More Info')
-            ->url('http://portal.siix-ems.co.id/hr/employees')
+            ->url('/hr/employees')
             ->descriptionIcon('heroicon-m-arrow-right-end-on-rectangle')
             ->color('warning');
 
@@ -28,7 +28,7 @@ class Ticketing extends BaseWidget
         $stats[] = Stat::make('Total Jobs Akses', $totalJobs)
             ->icon('heroicon-o-document-text')
             ->description('More Info')
-            ->url('http://portal.siix-ems.co.id/admin/jobs')
+            ->url('/admin/jobs')
             ->descriptionIcon('heroicon-m-arrow-right-end-on-rectangle')
             ->color('info');
 
@@ -38,7 +38,7 @@ class Ticketing extends BaseWidget
         $stats[] = Stat::make('Total Ticket', $totalTickets)
             ->icon('heroicon-o-ticket')
             ->description('More Info')
-            ->url('http://portal.siix-ems.co.id/admin/tickets')
+            ->url('/admin/tickets')
             ->descriptionIcon('heroicon-m-arrow-right-end-on-rectangle')
             ->color('success');
 
@@ -48,7 +48,7 @@ class Ticketing extends BaseWidget
         $stats[] = Stat::make('Total Assets', $totalFasilitas)
             ->icon('heroicon-o-archive-box')
             ->description('More Info')
-            ->url('http://portal.siix-ems.co.id/ga/')
+            ->url('/ga/')
             ->descriptionIcon('heroicon-m-arrow-right-end-on-rectangle')
             ->color('danger');
 

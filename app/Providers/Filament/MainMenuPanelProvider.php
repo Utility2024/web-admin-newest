@@ -61,7 +61,7 @@ class MainMenuPanelProvider extends PanelProvider
                         Action::make('manage_profile')
                             ->label('Manage My Profile')
                             ->icon('heroicon-o-user')
-                            ->url('http://portal.siix-ems.co.id/mainMenu/profile')
+                            ->url('/mainMenu/profile')
                     )
                     ->sort(-1)
                     ->columnSpan('full'),

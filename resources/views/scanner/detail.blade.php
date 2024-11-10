@@ -9,7 +9,7 @@
             <h5>Data Detail Measurement ESD
         </div>
         <div class="card-body">
-            <a href="http://portal.siix-ems.co.id/mainMenu" class="btn btn-success mb-3">Back To Main Menu</a>
+            <a href="/mainMenu" class="btn btn-success mb-3">Back To Main Menu</a>
             <a href="{{ route('indexScanner') }}" class="btn btn-danger mb-3">Scan Ulang</a>
             <!-- @if ($type != '')
                 <a href="/download-pdf?search={{ $search }}" class="btn btn-primary mb-3">Download PDF</a>

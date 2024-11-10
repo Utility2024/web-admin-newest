@@ -21,7 +21,7 @@ class ListComelateEmployees extends ListRecords
                 ->label('Back To Menu')
                 ->icon('heroicon-o-arrow-left-start-on-rectangle')
                 ->color('danger')
-                ->url('http://portal.siix-ems.co.id/form'),
+                ->url('/form'),
         ];
     }
 

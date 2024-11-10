@@ -64,7 +64,7 @@ class FComelateTable extends BaseWidget
 
                         // Pastikan employee ditemukan
                         if ($employee) {
-                            return "http://portal.siix-ems.co.id/hr/employees/{$employee->ID}";
+                            return "/hr/employees/{$employee->ID}";
                         }
 
                         return "Tidak Ada Data"; // Arahkan ke URL kosong jika data tidak ditemukan

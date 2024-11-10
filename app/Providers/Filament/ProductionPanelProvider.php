@@ -36,7 +36,7 @@ class ProductionPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make('Back')
-                    ->url('http://portal.siix-ems.co.id/jobs')
+                    ->url('/jobs')
                     ->icon('heroicon-o-arrow-left-start-on-rectangle')
                     ->sort(3),
             ])

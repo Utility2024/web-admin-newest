@@ -29,7 +29,7 @@ class ATicketingWidgets extends BaseWidget
         if ($isSuperAdmin || $isManagerAdmin) {
             $stats[] = Stat::make('All Tickets', $this->getCount())
                 ->description('Total tickets')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets')
+                ->url('/ticket/tickets')
                 ->color('primary');
         }
 
@@ -37,27 +37,27 @@ class ATicketingWidgets extends BaseWidget
         if ($userRole === 'USER') {
             $stats[] = Stat::make('All My Tickets', $this->getCountMyTickets())
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets')
+                ->url('/ticket/tickets')
                 ->color('success');
 
             $stats[] = Stat::make('Open Tickets', $this->getCountByCreatedByAndStatus('Open', $userId))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=Open')
+                ->url('/ticket/tickets?activeTab=Open')
                 ->color('warning');
 
             $stats[] = Stat::make('Pending Tickets', $this->getCountByCreatedByAndStatus('Pending', $userId))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=Pending')
+                ->url('/ticket/tickets?activeTab=Pending')
                 ->color('danger');
 
             $stats[] = Stat::make('In Progress Tickets', $this->getCountByCreatedByAndStatus('In Progress', $userId))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=In+Progress')
+                ->url('/ticket/tickets?activeTab=In+Progress')
                 ->color('info');
 
             $stats[] = Stat::make('Closed Tickets', $this->getCountByCreatedByAndStatus('Closed', $userId))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=Closed')
+                ->url('/ticket/tickets?activeTab=Closed')
                 ->color('danger');
         }
 
@@ -65,22 +65,22 @@ class ATicketingWidgets extends BaseWidget
         if ($isAdminHr || $isAdminGa || $isAdminUtility || $isAdminEsd) {
             $stats[] = Stat::make('Open Tickets', $this->getCountByCreatedByAndRoleAndStatus('Open', $userRole))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=Open')
+                ->url('/ticket/tickets?tableFilters[status][value]=Open')
                 ->color('warning');
 
             $stats[] = Stat::make('In Progress Tickets', $this->getCountByCreatedByAndRoleAndStatus('In Progress', $userRole))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=In+Progress')
+                ->url('/ticket/tickets?tableFilters[status][value]=In+Progress')
                 ->color('info');
 
             $stats[] = Stat::make('Pending Tickets', $this->getCountByCreatedByAndRoleAndStatus('Pending', $userRole))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=Pending')
+                ->url('/ticket/tickets?tableFilters[status][value]=Pending')
                 ->color('secondary');
 
             $stats[] = Stat::make('Closed Tickets', $this->getCountByCreatedByAndRoleAndStatus('Closed', $userRole))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?tableFilters[status][value]=Closed')
+                ->url('/ticket/tickets?tableFilters[status][value]=Closed')
                 ->color('danger');
         }
 
@@ -88,17 +88,17 @@ class ATicketingWidgets extends BaseWidget
         if ($isManagerAdmin) {
             $stats[] = Stat::make('Approved Tickets', $this->getCountByCreatedByAndApproval($userId, 'Approved'))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=Approved')
+                ->url('/ticket/tickets?activeTab=Approved')
                 ->color('success');
 
             $stats[] = Stat::make('Rejected Tickets', $this->getCountByCreatedByAndApproval($userId, 'Rejected'))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=Rejected')
+                ->url('/ticket/tickets?activeTab=Rejected')
                 ->color('danger');
             
             $stats[] = Stat::make('Waiting Tickets', $this->getCountByCreatedByAndApproval($userId, 'Waiting Approval'))
                 ->description('More Info')
-                ->url('http://portal.siix-ems.co.id/ticket/tickets?activeTab=Waiting Approval')
+                ->url('/ticket/tickets?activeTab=Waiting Approval')
                 ->color('warning');
         }
 

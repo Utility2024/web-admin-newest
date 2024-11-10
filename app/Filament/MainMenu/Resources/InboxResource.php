@@ -94,9 +94,9 @@ class InboxResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->url(fn (Inbox $record) => match ($record->transaction_type) {
-                    'pengajuan_fasilitas' => "http://portal.siix-ems.co.id/form/pengajuan-fasilitas/{$record->transaction_id}",
-                    'comelate_employee' => "http://portal.siix-ems.co.id/form/comelate-employees/{$record->transaction_id}",
-                    'ticket_created' => "http://portal.siix-ems.co.id/ticket/tickets/{$record->transaction_id}",
+                    'pengajuan_fasilitas' => "/form/pengajuan-fasilitas/{$record->transaction_id}",
+                    'comelate_employee' => "/form/comelate-employees/{$record->transaction_id}",
+                    'ticket_created' => "/ticket/tickets/{$record->transaction_id}",
                 })
             
             ])

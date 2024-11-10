@@ -18,7 +18,7 @@ class ViewPengajuanFasilitas extends ViewRecord
             Action::make('customAction')
                 ->label('Back')
                 ->color('danger')
-                ->url('http://portal.siix-ems.co.id/form/pengajuan-fasilitas'),
+                ->url('/form/pengajuan-fasilitas'),
         ];
     }
 }

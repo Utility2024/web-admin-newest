@@ -76,12 +76,12 @@ class LatestMyTicketing extends BaseWidget
                     ->label('Add New Ticket')
                     ->icon('heroicon-o-plus-circle')
                     ->color('success')
-                    ->url('http://portal.siix-ems.co.id/ticket/tickets/create')
+                    ->url('/ticket/tickets/create')
                     ->visible(fn () => auth()->user()->isUser()) // Only visible if the user is 'isUser'
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->url(fn (Ticket $record): string => "http://portal.siix-ems.co.id/ticket/tickets/{$record->id}")
+                    ->url(fn (Ticket $record): string => "/ticket/tickets/{$record->id}")
                     ->label('View')
             ]);
     }

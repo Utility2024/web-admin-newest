@@ -36,7 +36,7 @@ class FormPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->navigationItems([
                 NavigationItem::make('Main Menu')
-                    ->url('http://portal.siix-ems.co.id/mainMenu')
+                    ->url('/mainMenu')
                     ->icon('heroicon-o-arrow-left-start-on-rectangle')
                     ->sort(3),
             ])
