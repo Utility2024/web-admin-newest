@@ -2,6 +2,7 @@
 
 namespace App\Filament\Production\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -11,13 +12,13 @@ use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\Card as InfolistCard;
 use App\Filament\Production\Resources\MasterWipResource\Pages;
 use App\Filament\Production\Resources\MasterWipResource\RelationManagers;
 use App\Filament\Production\Resources\MasterWipResource\RelationManagers\DetailWipsRelationManager;
-use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 
 class MasterWipResource extends Resource
 {
@@ -119,102 +120,103 @@ class MasterWipResource extends Resource
                 // Filter by status, etc.
             ])
             ->actions([
-                Tables\Actions\Action::make('updateApproval')
-                    ->label('Approval')
-                    ->button()
-                    ->action(function ($record) {
-                        $newApproval = 'Approved'; // The new status can be changed as needed
+                // Tables\Actions\Action::make('updateApproval')
+                //     ->label('Approval')
+                //     ->button()
+                //     ->action(function ($record) {
+                //         $newApproval = 'Approved'; // The new status can be changed as needed
 
-                        // Update both acceptance_status and updated_by fields
-                        $record->update([
-                            'approval' => $newApproval,
-                        ]);
+                //         // Update both acceptance_status and updated_by fields
+                //         $record->update([
+                //             'approval' => $newApproval,
+                //         ]);
 
-                        Notification::make()
-                            ->title('Approved')
-                            ->success()
-                            ->send();
-                    })
-                    ->requiresConfirmation()
-                    ->hidden(fn($record) => !auth()->user()->isAdminWip() || $record->approval === 'Approved')// Hide if not admin or already approved
-                        ->label('Approved')
-                        ->button()
-                        ->action(function ($record) {
-                            // Check if the current acceptance status is already 'Accepted'
-                            if ($record->approval === 'Approved') {
-                                Notification::make()
-                                    ->title('No Action Needed')
-                                    ->body('The acceptance status is already set to "Approved".')
-                                    ->danger() // You can use danger color for emphasis
-                                    ->send();
+                //         Notification::make()
+                //             ->title('Approved')
+                //             ->success()
+                //             ->send();
+                //     })
+                //     ->requiresConfirmation()
+                //     ->hidden(fn($record) => !auth()->user()->isAdminWip() || $record->approval === 'Approved')// Hide if not admin or already approved
+                //         ->label('Approved')
+                //         ->button()
+                //         ->action(function ($record) {
+                //             // Check if the current acceptance status is already 'Accepted'
+                //             if ($record->approval === 'Approved') {
+                //                 Notification::make()
+                //                     ->title('No Action Needed')
+                //                     ->body('The acceptance status is already set to "Approved".')
+                //                     ->danger() // You can use danger color for emphasis
+                //                     ->send();
 
-                                return; // Exit the action early if the status is already 'Accepted'
-                            }
+                //                 return; // Exit the action early if the status is already 'Accepted'
+                //             }
 
-                            $newApproval = 'Approved'; // The new status can be changed as needed
+                //             $newApproval = 'Approved'; // The new status can be changed as needed
 
-                            // Update both acceptance_status and updated_by fields
-                            $record->update([
-                                'approval' => $newApproval// Set updated_by to the authenticated user's ID
-                            ]);
+                //             // Update both acceptance_status and updated_by fields
+                //             $record->update([
+                //                 'approval' => $newApproval// Set updated_by to the authenticated user's ID
+                //             ]);
 
-                            Notification::make()
-                                ->title('Approved')
-                                ->success()
-                                ->send();
-                        })
-                        ->color('success')
-                        ->requiresConfirmation(),
-                Tables\Actions\Action::make('updateAcceptanceStatus')
-                    ->label('Accept')
-                    ->button()
-                    ->action(function ($record) {
-                        $newStatus = 'Accepted'; // The new status can be changed as needed
+                //             Notification::make()
+                //                 ->title('Approved')
+                //                 ->success()
+                //                 ->send();
+                //         })
+                //         ->color('success')
+                //         ->requiresConfirmation(),
+                // Tables\Actions\Action::make('updateAcceptanceStatus')
+                //     ->label('Accept')
+                //     ->button()
+                //     ->action(function ($record) {
+                //         $newStatus = 'Accepted'; // The new status can be changed as needed
 
-                        // Update both acceptance_status and updated_by fields
-                        $record->update([
-                            'acceptance_status' => $newStatus,
-                            'updated_by' => Auth::id(), // Set updated_by to the authenticated user's ID
-                        ]);
+                //         // Update both acceptance_status and updated_by fields
+                //         $record->update([
+                //             'acceptance_status' => $newStatus,
+                //             'updated_by' => Auth::id(), // Set updated_by to the authenticated user's ID
+                //         ]);
 
-                        Notification::make()
-                            ->title('Status Updated')
-                            ->success()
-                            ->send();
-                    })
-                    ->requiresConfirmation()
-                    ->hidden(fn($record) => !auth()->user()->isUserWip() || $record->acceptance_status === 'Accepted') // Hide if not user or already accepted
-                        ->label('Accept')
-                        ->button()
-                        ->action(function ($record) {
-                            // Check if the current acceptance status is already 'Accepted'
-                            if ($record->acceptance_status === 'Accepted') {
-                                Notification::make()
-                                    ->title('No Action Needed')
-                                    ->body('The acceptance status is already set to "Accepted".')
-                                    ->danger() // You can use danger color for emphasis
-                                    ->send();
+                //         Notification::make()
+                //             ->title('Status Updated')
+                //             ->success()
+                //             ->send();
+                //     })
+                //     ->requiresConfirmation()
+                //     ->hidden(fn($record) => !auth()->user()->isUserWip() || $record->acceptance_status === 'Accepted') // Hide if not user or already accepted
+                //         ->label('Accept')
+                //         ->button()
+                //         ->action(function ($record) {
+                //             // Check if the current acceptance status is already 'Accepted'
+                //             if ($record->acceptance_status === 'Accepted') {
+                //                 Notification::make()
+                //                     ->title('No Action Needed')
+                //                     ->body('The acceptance status is already set to "Accepted".')
+                //                     ->danger() // You can use danger color for emphasis
+                //                     ->send();
 
-                                return; // Exit the action early if the status is already 'Accepted'
-                            }
+                //                 return; // Exit the action early if the status is already 'Accepted'
+                //             }
 
-                            $newStatus = 'Accepted'; // The new status can be changed as needed
+                //             $newStatus = 'Accepted'; // The new status can be changed as needed
 
-                            // Update both acceptance_status and updated_by fields
-                            $record->update([
-                                'acceptance_status' => $newStatus,
-                                'updated_by' => Auth::id(), // Set updated_by to the authenticated user's ID
-                            ]);
+                //             // Update both acceptance_status and updated_by fields
+                //             $record->update([
+                //                 'acceptance_status' => $newStatus,
+                //                 'updated_by' => Auth::id(), // Set updated_by to the authenticated user's ID
+                //             ]);
 
-                            Notification::make()
-                                ->title('Status Updated')
-                                ->success()
-                                ->send();
-                        })
-                        ->requiresConfirmation(),
+                //             Notification::make()
+                //                 ->title('Status Updated')
+                //                 ->success()
+                //                 ->send();
+                //         })
+                //         ->requiresConfirmation(),
                 Tables\Actions\ViewAction::make()
                     ->button(),
                 Tables\Actions\EditAction::make()
+                    ->hidden(fn ($record) => Carbon::now()->diffInMinutes($record->created_at) >= 1440)// Hide if more than 5 minutes
                     ->button(),
                 Tables\Actions\DeleteAction::make()
                     ->button(),

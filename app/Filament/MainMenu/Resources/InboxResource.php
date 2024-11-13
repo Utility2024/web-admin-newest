@@ -30,18 +30,25 @@ class InboxResource extends Resource
     {
         // Get the authenticated user
         $user = auth()->user();
-    
+
         // Check if the user has the role of isManagerAdmin
         if ($user->isManagerAdmin()) {
-            // If user is a ManagerAdmin, count all pending approvals
-            return static::getModel()::where('approval', 'Pending')->count();
+            // If user is a ManagerAdmin, count all records where approval is 'Open'
+            return static::getModel()::where('approval', 'Open')->count();
         }
-    
-        // Otherwise, count pending approvals for the authenticated user
-        return static::getModel()::where('approval', 'Pending')
+
+        // If the user has isAdminWip or isUserWip roles, count all records where approval is 'Open' and transaction_type is 'master_wips'
+        if ($user->isAdminWip() || $user->isUserWip()) {
+            return static::getModel()::where('approval', 'Open')
+                ->where('transaction_type', 'master_wips')
+                ->count();
+        }
+
+        // Otherwise, count records with 'Open' approval for the authenticated user
+        return static::getModel()::where('approval', 'Open')
             ->where('user_id', $user->id) // Filter by user_id
             ->count();
-    }       
+    }      
 
     public static function form(Form $form): Form
     {
@@ -74,9 +81,10 @@ class InboxResource extends Resource
                 Tables\Columns\TextColumn::make('message')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('approval')
-                    ->label('Approval Manager')
+                    ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
+                        'Open' => 'danger',
                         'Pending' => 'warning',
                         'Approved' => 'success',
                         'Rejected' => 'danger'
@@ -97,6 +105,7 @@ class InboxResource extends Resource
                     'pengajuan_fasilitas' => "/form/pengajuan-fasilitas/{$record->transaction_id}",
                     'comelate_employee' => "/form/comelate-employees/{$record->transaction_id}",
                     'ticket_created' => "/ticket/tickets/{$record->transaction_id}",
+                    'master_wips' => "/production/master-wips/{$record->transaction_id}",
                 })
             
             ])

@@ -27,12 +27,17 @@ class ListInboxes extends ListRecords
     {
         $user = Auth::user();
 
-        // Jika user memiliki role isManagerAdmin, mereka dapat melihat semua data
+        // If the user has 'isManagerAdmin' role, they can see all data
         if ($user->isManagerAdmin()) {
-            return parent::getTableQuery(); // Menampilkan semua data
+            return parent::getTableQuery(); // Show all data
         }
 
-        // Jika bukan isManagerAdmin, filter berdasarkan user_id
+        // If the user has 'isAdminWip' or 'isUserWip' roles, filter by 'transaction_type'
+        if ($user->isAdminWip() || $user->isUserWip()) {
+            return parent::getTableQuery()->where('transaction_type', 'master_wips');
+        }
+
+        // If the user does not have the above roles, filter by 'user_id'
         return parent::getTableQuery()->where('user_id', $user->id);
     }
 }

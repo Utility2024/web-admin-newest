@@ -2,12 +2,13 @@
 
 namespace App\Filament\Production\Resources\MasterWipResource\Pages;
 
-use App\Filament\Production\Resources\MasterWipResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Components\Tab;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Production\Resources\MasterWipResource;
+use App\Filament\Ga\Resources\PengajuanFasilitasResource\Widgets\WarningFacility;
 
 class ListMasterWips extends ListRecords
 {
@@ -17,6 +18,14 @@ class ListMasterWips extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            // WorksurfaceDetailStatsOverview::class,
+            WarningFacility::class,
         ];
     }
 
